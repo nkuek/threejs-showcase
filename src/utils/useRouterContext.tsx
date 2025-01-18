@@ -1,9 +1,11 @@
-import { createContext, useContext, useState, useTransition } from "react";
+import { createContext, useContext } from "react";
 
 type RouterContextState = {
   page: string;
   isTransitioning: boolean;
   navigate: (href: string) => void;
+  theme: string;
+  setTheme: (theme: string) => void;
 };
 
 export const RouterContext = createContext<RouterContextState | null>(null);

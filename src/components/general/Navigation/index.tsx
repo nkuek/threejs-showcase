@@ -1,20 +1,14 @@
-import sitemap from "~/utils/sitemap";
 import { useRouterContext } from "~/utils/useRouterContext";
+import Logo from "~/assets/logo.svg?react";
 
 export default function Navigation() {
-  const { page } = useRouterContext();
+  const { theme } = useRouterContext();
   return (
-    <nav className="flex gap-4 p-8">
-      {Object.values(sitemap).map((route) => (
-        <a
-          href={route.href}
-          key={route.label}
-          className="hover:underline data-[selected=true]:underline"
-          data-selected={page === route.href}
-        >
-          {route.label}
-        </a>
-      ))}
+    <nav
+      className="data-[theme=light]:text-stone-100 flex gap-4 items-center py-4 px-6 absolute top-0 left-0 right-0 text-stone-800 z-10 transition-colors"
+      data-theme={theme}
+    >
+      <Logo className="w-11" />
     </nav>
   );
 }

@@ -3,18 +3,16 @@ import { useRouterContext } from "~/utils/useRouterContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { isTransitioning } = useRouterContext();
-  console.log(isTransitioning);
   return (
     !isTransitioning && (
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
           }}
-          transition={{ duration: 2 }}
           exit={{ opacity: 0 }}
-          className="h-screen grid place-items-center"
+          className="h-screen grid place-items-center text-stone-800"
         >
           {children}
         </motion.div>

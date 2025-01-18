@@ -1,0 +1,20 @@
+<svg viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg" id="logo">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      #logo path { fill: #fafaf9; }
+    }
+  </style>
+<g clip-path="url(#clip0_120_301)">
+<path d="M84.7095 111.851H72.3758L22.7699 36.6286V111.851H10.4362V17.247H22.7699L72.3758 92.3335V17.247H84.7095V111.851Z" fill="#171717"/>
+<path d="M123.614 111.851L84.7157 68.7504V111.851H72.382V17.3826H84.7157V61.1604L123.75 17.3826H139.336L96.5073 64.6843L139.743 111.851H123.614Z" fill="#171717"/>
+</g>
+<path d="M7.75195 127.31L39.8814 127.221" stroke="#FAFF1A" stroke-width="15.2312" stroke-linecap="round"/>
+<path d="M39.8813 127.221L72.0108 127.132" stroke="#6DD3CE" stroke-width="15.2312" stroke-linecap="round"/>
+<path d="M72.0107 127.132L104.14 127.044" stroke="#3A0CA3" stroke-width="15.2312" stroke-linecap="round"/>
+<path d="M104.14 127.044L136.27 126.955" stroke="#F72585" stroke-width="15.2312" stroke-linecap="round"/>
+<defs>
+<clipPath id="clip0_120_301">
+<rect width="144" height="95.1084" fill="white" transform="translate(0 16)"/>
+</clipPath>
+</defs>
+</svg>

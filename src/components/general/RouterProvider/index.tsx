@@ -6,9 +6,11 @@ export default function RouterContextProvider(props: {
 }) {
   const [page, setPage] = useState(window.location.pathname);
   const [isTransitioning, startTransition] = useTransition();
+  const [theme, setTheme] = useState("light");
 
   function navigate(href: string) {
     startTransition(() => {
+      if (href === window.location.pathname) return;
       window.history.pushState({}, "", href);
       setPage(href);
     });
@@ -31,6 +33,8 @@ export default function RouterContextProvider(props: {
         page,
         isTransitioning,
         navigate,
+        theme,
+        setTheme,
       }}
     >
       {props.children}
