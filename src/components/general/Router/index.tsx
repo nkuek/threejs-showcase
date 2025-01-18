@@ -1,6 +1,6 @@
 import Layout from "../Layout";
-import Fireworks from "../Fireworks";
-import Home from "../Home";
+import Fireworks from "~/pages/Fireworks";
+import Home from "~/pages/Home";
 import { useRouterContext } from "~/utils/useRouterContext";
 
 export default function Router() {

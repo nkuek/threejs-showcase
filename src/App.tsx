@@ -1,10 +1,12 @@
-import RouterContextProvider from "./components/RouterProvider";
-import Router from "./components/Router";
+import RouterContextProvider from "~/components/general/RouterProvider";
+import Router from "~/components/general/Router";
 import { Suspense } from "react";
+import Navigation from "./components/general/Navigation";
 
 function App() {
   return (
     <RouterContextProvider>
+      <Navigation />
       <Suspense fallback={"Loading..."}>
         <Router />
       </Suspense>
