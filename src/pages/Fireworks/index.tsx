@@ -136,7 +136,6 @@ function FireworkGenerator({ counter }: { counter: number }) {
       }
 
       if (currentProgress >= 0.99) {
-        console.log("removing");
         scene.remove(firework);
         firework.geometry.dispose();
         material.dispose();

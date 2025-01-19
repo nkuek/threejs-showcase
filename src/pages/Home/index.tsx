@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import InternalLink from "~/components/general/InternalLink";
+import Link from "~/components/general/Link";
 import sitemap from "~/utils/sitemap";
 import { useRouterContext } from "~/utils/useRouterContext";
 
@@ -13,13 +13,13 @@ export default function Home() {
       {Object.entries(sitemap)
         .filter(([key]) => key !== "home")
         .map(([, link]) => (
-          <InternalLink
-            key={link.href}
+          <Link
+            key={link.path}
             className="text-4xl hover:underline hover:cursor-pointer"
-            href={link.href}
+            to={link.path}
           >
             {link.label}
-          </InternalLink>
+          </Link>
         ))}
     </div>
   );

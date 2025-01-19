@@ -10,8 +10,6 @@ export default function RouterContextProvider(props: {
 
   function navigate(href: string) {
     startTransition(() => {
-      if (href === window.location.pathname) return;
-      window.history.pushState({}, "", href);
       setPage(href);
     });
   }

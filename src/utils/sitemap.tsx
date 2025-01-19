@@ -1,13 +1,19 @@
-export type SitemapHrefs = (typeof sitemap)[keyof typeof sitemap]["href"];
+import Fireworks from "~/pages/Fireworks";
+import Home from "~/pages/Home";
 
 const sitemap = {
   home: {
     label: "Home",
-    href: "/",
+    path: "/",
+    exact: true,
+    component: <Home />,
+    index: true,
   },
   fireworks: {
     label: "Fireworks",
-    href: "/fireworks",
+    path: "/fireworks",
+    exact: true,
+    component: <Fireworks />,
   },
 } as const;
 
