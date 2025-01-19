@@ -5,6 +5,14 @@ import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
 import * as THREE from "three";
 import { useRouterContext } from "~/utils/useRouterContext";
+import texture1 from "./assets/1.png";
+import texture2 from "./assets/2.png";
+import texture3 from "./assets/3.png";
+import texture4 from "./assets/4.png";
+import texture5 from "./assets/5.png";
+import texture6 from "./assets/6.png";
+import texture7 from "./assets/7.png";
+import texture8 from "./assets/8.png";
 
 function createFireworks({
   scene,
@@ -91,14 +99,14 @@ function createFireworks({
 function FireworkGenerator({ counter }: { counter: number }) {
   const { size, scene } = useThree();
   const fireworkTextures = useLoader(THREE.TextureLoader, [
-    "/fireworks/1.png",
-    "/fireworks/2.png",
-    "/fireworks/3.png",
-    "/fireworks/4.png",
-    "/fireworks/5.png",
-    "/fireworks/6.png",
-    "/fireworks/7.png",
-    "/fireworks/8.png",
+    texture1,
+    texture2,
+    texture3,
+    texture4,
+    texture5,
+    texture6,
+    texture7,
+    texture8,
   ]);
   const fireworks = useRef<Set<THREE.Points>>(new Set());
 
