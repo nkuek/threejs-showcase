@@ -4,12 +4,12 @@ import Home from "~/pages/Home";
 import { useRouterContext } from "~/utils/useRouterContext";
 
 export default function Router() {
-  const { page, navigate } = useRouterContext();
+  const { page } = useRouterContext();
   return (
     <>
       {page === "/" && (
         <Layout>
-          <Home navigate={navigate} />
+          <Home />
         </Layout>
       )}
       {page === "/fireworks" && (
