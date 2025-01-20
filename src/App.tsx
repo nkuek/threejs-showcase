@@ -1,14 +1,16 @@
-import RouterContextProvider from "~/components/general/RouterProvider";
+import AppContextProvider from "~/components/general/AppProvider";
 import { HashRouter } from "react-router";
 import Router from "~/components/general/Router";
 
 function App() {
   return (
-    <RouterContextProvider>
-      <HashRouter>
-        <Router />
-      </HashRouter>
-    </RouterContextProvider>
+    <div className="bg-stone-100">
+      <AppContextProvider>
+        <HashRouter>
+          <Router />
+        </HashRouter>
+      </AppContextProvider>
+    </div>
   );
 }
 

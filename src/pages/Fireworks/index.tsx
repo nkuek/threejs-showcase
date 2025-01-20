@@ -4,7 +4,6 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
 import * as THREE from "three";
-import { useRouterContext } from "~/utils/useRouterContext";
 import texture1 from "./assets/1.png";
 import texture2 from "./assets/2.png";
 import texture3 from "./assets/3.png";
@@ -157,11 +156,6 @@ function FireworkGenerator({ counter }: { counter: number }) {
 export default function Fireworks() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [counter, setCounter] = useState(0);
-  const { setTheme } = useRouterContext();
-
-  useEffect(() => {
-    setTheme("light");
-  }, [setTheme]);
 
   return (
     <div className="bg-black h-screen w-full">

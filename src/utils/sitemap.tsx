@@ -1,20 +1,33 @@
 import Fireworks from "~/pages/Fireworks";
 import Home from "~/pages/Home";
 
-const sitemap = {
+export type SitemapPath = (typeof sitemap)[keyof typeof sitemap]["path"];
+
+export type Theme = "light" | "dark";
+
+export type SitemapRoute = {
+  label: string;
+  path: string;
+  exact?: boolean;
+  component: React.ReactNode;
+  theme: Theme;
+};
+
+const sitemap: Record<string, SitemapRoute> = {
   home: {
     label: "Home",
     path: "/",
     exact: true,
     component: <Home />,
-    index: true,
+    theme: "light",
   },
   fireworks: {
     label: "Fireworks",
     path: "/fireworks",
     exact: true,
     component: <Fireworks />,
+    theme: "dark",
   },
-} as const;
+};
 
 export default sitemap;

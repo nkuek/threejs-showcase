@@ -1,15 +1,9 @@
-import { useEffect } from "react";
-import Link from "~/components/general/Link";
+import { Link } from "react-router";
 import sitemap from "~/utils/sitemap";
-import { useRouterContext } from "~/utils/useRouterContext";
 
 export default function Home() {
-  const { setTheme } = useRouterContext();
-  useEffect(() => {
-    setTheme("dark");
-  }, [setTheme]);
   return (
-    <div className="h-screen grid place-items-center">
+    <div className="h-screen grid place-items-center bg-white w-full">
       {Object.entries(sitemap)
         .filter(([key]) => key !== "home")
         .map(([, link]) => (
