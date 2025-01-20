@@ -3,18 +3,21 @@ import sitemap from "~/utils/sitemap";
 
 export default function Home() {
   return (
-    <div className="h-svh grid place-items-center bg-white w-full">
-      {Object.entries(sitemap)
-        .filter(([key]) => key !== "home")
-        .map(([, link]) => (
-          <Link
-            key={link.path}
-            className="text-4xl hover:underline hover:cursor-pointer"
-            to={link.path}
-          >
-            {link.label}
-          </Link>
-        ))}
+    <div className="h-svh grid place-items-center w-full">
+      <ul className="flex flex-col gap-8">
+        {Object.entries(sitemap)
+          .filter(([key]) => key !== "home")
+          .map(([, link]) => (
+            <li key={link.path}>
+              <Link
+                className="text-4xl hover:underline hover:cursor-pointer"
+                to={link.path}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

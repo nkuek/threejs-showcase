@@ -14,6 +14,7 @@ export type SitemapRoute = {
 
 const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
+const LazyLightShading = lazy(() => import("~/pages/LightShading"));
 
 const sitemap: Record<string, SitemapRoute> = {
   home: {
@@ -28,6 +29,13 @@ const sitemap: Record<string, SitemapRoute> = {
     path: "/fireworks",
     exact: true,
     component: <LazyFireworks />,
+    theme: "dark",
+  },
+  lightShading: {
+    label: "DIY Light Shading",
+    path: "/light-shading",
+    exact: true,
+    component: <LazyLightShading />,
     theme: "dark",
   },
 };

@@ -7,6 +7,7 @@ import svgr from "vite-plugin-svgr";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), glsl(), svgr()],
+  assetsInclude: ["**/*.gltf", "**/*.glb"],
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "src"),

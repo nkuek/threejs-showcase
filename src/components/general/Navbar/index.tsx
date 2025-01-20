@@ -6,7 +6,7 @@ export default function Navbar() {
   const { theme } = useAppContext();
   return (
     <nav
-      className="data-[theme=light]:text-stone-800 flex gap-4 items-center py-4 px-6 absolute top-0 left-0 right-0 text-stone-100 z-20 transition-colors"
+      className="data-[theme=light]:text-stone-800 flex gap-4 items-center py-4 px-6 absolute top-0 left-0 right-0 text-stone-100 z-30 transition-colors"
       data-theme={theme}
     >
       <Link to="/" className="hover:cursor-pointer">
