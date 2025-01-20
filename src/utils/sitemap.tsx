@@ -1,5 +1,4 @@
-import Fireworks from "~/pages/Fireworks";
-import Home from "~/pages/Home";
+import { lazy } from "react";
 
 export type SitemapPath = (typeof sitemap)[keyof typeof sitemap]["path"];
 
@@ -13,19 +12,22 @@ export type SitemapRoute = {
   theme: Theme;
 };
 
+const LazyHome = lazy(() => import("~/pages/Home"));
+const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
+
 const sitemap: Record<string, SitemapRoute> = {
   home: {
     label: "Home",
     path: "/",
     exact: true,
-    component: <Home />,
+    component: <LazyHome />,
     theme: "light",
   },
   fireworks: {
     label: "Fireworks",
     path: "/fireworks",
     exact: true,
-    component: <Fireworks />,
+    component: <LazyFireworks />,
     theme: "dark",
   },
 };

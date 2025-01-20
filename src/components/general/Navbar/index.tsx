@@ -10,6 +10,7 @@ export default function Navbar() {
       data-theme={theme}
     >
       <Link to="/" className="hover:cursor-pointer">
+        <span className="sr-only">Home</span>
         <Logo className="w-11" />
       </Link>
     </nav>
