@@ -3,7 +3,7 @@ import sitemap from "~/utils/sitemap";
 
 export default function Home() {
   return (
-    <div className="h-screen grid place-items-center bg-white w-full">
+    <div className="h-svh grid place-items-center bg-white w-full">
       {Object.entries(sitemap)
         .filter(([key]) => key !== "home")
         .map(([, link]) => (

@@ -41,7 +41,7 @@ export default function PageWrapper({ route }: { route: SitemapRoute }) {
         animate={{
           opacity: 1,
         }}
-        className="h-screen grid place-items-center text-stone-800"
+        className="h-svh grid place-items-center text-stone-800"
       >
         {route.component}
       </motion.div>

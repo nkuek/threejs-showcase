@@ -158,7 +158,7 @@ export default function Fireworks() {
   const [counter, setCounter] = useState(0);
 
   return (
-    <div className="bg-black h-screen w-full">
+    <div className="bg-black h-svh w-full">
       <Canvas
         gl={{ antialias: true }}
         dpr={[window.devicePixelRatio, 2]}
