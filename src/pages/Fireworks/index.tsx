@@ -49,7 +49,7 @@ function createFireworks({
     positionVector.setFromSpherical(spherical);
 
     // create random color
-    color.setHSL(Math.random(), 1, 0.7);
+    color.setHSL(Math.random(), 1.0, 0.5);
 
     // set attributes
     positions.set(positionVector.toArray(), i * 3);

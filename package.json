@@ -10,6 +10,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "resolutions": {
+    "@radix-ui/react-portal": "1.0.2"
+  },
   "dependencies": {
     "@react-three/drei": "^9.121.2",
     "@react-three/fiber": "^8.17.12",
