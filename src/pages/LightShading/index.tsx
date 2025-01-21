@@ -273,7 +273,7 @@ function CanvasContent() {
 
     if (!moveLights) return;
 
-    const light1PositionX = Math.sin(elapsedTime) * 4;
+    const light1PositionX = Math.cos(elapsedTime) * 4;
     const light2PositionX = Math.sin(elapsedTime) * 4;
     const directionalLightPositionY = Math.cos(elapsedTime * 1.2) * 3;
     setPointLight1({ pointLight1Position: [light1PositionX, 2.5, 0] });
