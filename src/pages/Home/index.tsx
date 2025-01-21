@@ -1,10 +1,13 @@
+import { Canvas } from "@react-three/fiber";
 import { Link } from "react-router";
 import sitemap from "~/utils/sitemap";
+import HomeCanvasContent from "./components/HomeCanvasContent";
+import { OrbitControls } from "@react-three/drei";
 
 export default function Home() {
   return (
     <div className="h-svh grid place-items-center w-full">
-      <ul className="flex flex-col gap-8">
+      <ul className="flex flex-col gap-8 z-[1] ">
         {Object.entries(sitemap)
           .filter(([key]) => key !== "home")
           .map(([, link]) => (
@@ -18,6 +21,12 @@ export default function Home() {
             </li>
           ))}
       </ul>
+      <div className="absolute inset-0">
+        <Canvas>
+          <HomeCanvasContent />
+          <OrbitControls />
+        </Canvas>
+      </div>
     </div>
   );
 }
