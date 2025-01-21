@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.3 ./src/pages/LightShading/assets/suzanne.glb
 */
 
 import { useGLTF } from "@react-three/drei";
-import suzanne from "./assets/suzanne.glb?url";
+import suzanne from "../../assets/suzanne.glb?url";
 import * as THREE from "three";
 import { GroupProps } from "@react-three/fiber";
 import { forwardRef, PropsWithChildren } from "react";
