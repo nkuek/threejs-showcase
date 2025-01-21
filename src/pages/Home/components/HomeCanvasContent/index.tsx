@@ -45,7 +45,7 @@ export default function HomeCanvasContent() {
       value: "#ffeaea",
     },
     uAmbientLightColor: {
-      value: "#deedff",
+      value: "#ffe4e4",
       label: "Point light color",
     },
   });

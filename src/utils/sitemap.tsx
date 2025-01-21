@@ -16,7 +16,13 @@ const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
 const LazyLightShading = lazy(() => import("~/pages/LightShading"));
 
-const sitemap: Record<string, SitemapRoute> = {
+export const externalLinks = {
+  portfolio: {
+    path: "https://www.nkuek.dev",
+  },
+};
+
+const sitemap = {
   home: {
     label: "Home",
     path: "/",
@@ -38,6 +44,6 @@ const sitemap: Record<string, SitemapRoute> = {
     component: <LazyLightShading />,
     theme: "dark",
   },
-};
+} as const;
 
 export default sitemap;

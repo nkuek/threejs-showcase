@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import fluid, { extract, screens, fontSize } from "fluid-tailwind";
+import tailwindMotion from "tailwindcss-motion";
 
 export default {
   content: {
@@ -11,5 +12,5 @@ export default {
     fontSize,
     extend: {},
   },
-  plugins: [fluid],
+  plugins: [fluid, tailwindMotion],
 };

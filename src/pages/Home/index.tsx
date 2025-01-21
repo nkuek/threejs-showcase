@@ -9,7 +9,7 @@ const hideLeva = true;
 export default function Home() {
   return (
     <div className="h-svh grid place-items-center w-full">
-      <div className="grid place-items-center h-[80%] w-[80%] mix-blend-difference bg-white text-slate-800 z-[1]">
+      <div className="grid place-items-center h-[70%] w-[60%] mix-blend-difference bg-white text-slate-800 z-[1] max-w-[1000px]">
         <ul className="flex flex-col gap-8 justify-center h-full">
           {Object.entries(sitemap)
             .filter(([key]) => key !== "home")
