@@ -98,7 +98,7 @@ float cnoise(vec3 P)
 }
 
 void main() {
-    float displacement = cnoise(position + aPosition + vec3(uTime * 0.2 * aOffset));
+    float displacement = cnoise(position + aPosition + vec3(uTime * 0.08 * aOffset));
     vec3 newPosition = position + aPosition + normal * displacement * aRandomness * 0.1;
 
     vec4 modelPosition = modelMatrix * vec4((newPosition) * aScale, 1.0);
@@ -106,7 +106,7 @@ void main() {
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectionPosition = projectionMatrix * viewPosition;
 
-    float upwardsMotion = mod((uTime + 10.0) * 0.5 * aOffset, 30.0) - 10.0;
+    float upwardsMotion = mod((uTime + 10.0) * 0.5 * aOffset, 40.0) - 20.0;
 
     projectionPosition.y += upwardsMotion;
 

@@ -71,8 +71,8 @@ export default function HomeCanvasContent() {
               key={index}
               aPosition={[Math.random() * 10 - 5, 0, Math.random() * -5]}
               aRandomness={Math.random() * 5 + 1}
-              aScale={Math.random() * 2 + 0.5}
-              aOffset={Math.random() * 4 + 1}
+              aScale={Math.random() * 2 + 1}
+              aOffset={Math.random() * 3 + 1}
             />
           ))}
           <InstancedAttribute name="aRandomness" defaultValue={3} />
