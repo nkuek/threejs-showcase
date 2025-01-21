@@ -13,13 +13,14 @@ import { useControls } from "leva";
 type LavaLampShaderMaterialUniforms = {
   uTime: number;
   uColor?: THREE.Color | string;
+  uAmbientLightColor?: THREE.Color | string;
 };
 
 const LavaLampShaderMaterial = shaderMaterial(
   {
     uTime: 0,
     uColor: new THREE.Color("white"),
-    uOffset: 0,
+    uAmbientLightColor: new THREE.Color("white"),
   },
   vertexShader,
   fragmentShader
@@ -39,40 +40,48 @@ export default function HomeCanvasContent() {
 
   const [BlobInstances, BlobInstance] = createInstances<BlobInstance>();
 
-  const { color } = useControls({
+  const { color, uAmbientLightColor } = useControls({
     color: {
-      value: "white",
+      value: "#ffeaea",
+    },
+    uAmbientLightColor: {
+      value: "#deedff",
+      label: "Point light color",
     },
   });
+
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
     const material = meshRef.current.material as THREE.ShaderMaterial;
     material.uniforms.uTime.value = clock.getElapsedTime();
   });
   return (
-    <group>
-      <BlobInstances limit={10} range={10} ref={meshRef}>
-        <icosahedronGeometry args={[1, 128]} />
-        <lavaLampShaderMaterial
-          key={LavaLampShaderMaterial.key}
-          uTime={0}
-          uColor={new THREE.Color(color)}
-        />
-        {Array.from({ length: 10 }).map((_, index) => (
-          <BlobInstance
-            key={index}
-            aPosition={[Math.random() * 10 - 5, 0, Math.random() * 6 - 3]}
-            aRandomness={Math.random() * 2 + 1}
-            aScale={Math.random() * 0.5 + 0.5}
-            aOffset={Math.random() * 4}
+    <>
+      <group>
+        <BlobInstances limit={10} range={10} ref={meshRef}>
+          <icosahedronGeometry args={[1, 128]} />
+          <lavaLampShaderMaterial
+            key={LavaLampShaderMaterial.key}
+            uTime={0}
+            uColor={new THREE.Color(color)}
+            uAmbientLightColor={new THREE.Color(uAmbientLightColor)}
           />
-        ))}
-        <InstancedAttribute name="aRandomness" defaultValue={3} />
-        <InstancedAttribute name="aPosition" defaultValue={[0, 0, 0]} />
-        <InstancedAttribute name="aScale" defaultValue={1} />
-        <InstancedAttribute name="aOffset" defaultValue={1} />
-      </BlobInstances>
-    </group>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <BlobInstance
+              key={index}
+              aPosition={[Math.random() * 10 - 5, 0, Math.random() * -5]}
+              aRandomness={Math.random() * 5 + 1}
+              aScale={Math.random() * 2 + 0.5}
+              aOffset={Math.random() * 4 + 1}
+            />
+          ))}
+          <InstancedAttribute name="aRandomness" defaultValue={3} />
+          <InstancedAttribute name="aPosition" defaultValue={[0, 0, 0]} />
+          <InstancedAttribute name="aScale" defaultValue={1} />
+          <InstancedAttribute name="aOffset" defaultValue={1} />
+        </BlobInstances>
+      </group>
+    </>
   );
 }
 

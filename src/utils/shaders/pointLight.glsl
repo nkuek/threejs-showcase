@@ -1,4 +1,13 @@
-vec3 pointLight(vec3 lightColor, float lightIntensity, vec3 normal, vec3 lightPosition, vec3 viewDirection, float specularPower, vec3 position, float lightDecay) {
+vec3 pointLight(
+    vec3 lightColor,
+    float lightIntensity,
+    vec3 normal,
+    vec3 lightPosition,
+    vec3 viewDirection,
+    float specularPower,
+    vec3 position,
+    float lightDecay
+) {
     // calculate the direction of the fragment to the light
     vec3 lightDelta = lightPosition - position;
     float lightDistance = length(lightDelta);

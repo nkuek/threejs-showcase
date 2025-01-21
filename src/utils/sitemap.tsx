@@ -32,7 +32,7 @@ const sitemap: Record<string, SitemapRoute> = {
     theme: "dark",
   },
   lightShading: {
-    label: "DIY Light Shading",
+    label: "Shader Light Shading",
     path: "/light-shading",
     exact: true,
     component: <LazyLightShading />,
