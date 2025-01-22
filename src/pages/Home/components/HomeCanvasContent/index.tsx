@@ -42,10 +42,10 @@ export default function HomeCanvasContent() {
 
   const { color, uAmbientLightColor } = useControls({
     color: {
-      value: "#ffeaea",
+      value: "#ffc6c6",
     },
     uAmbientLightColor: {
-      value: "#ffe4e4",
+      value: "#ffc6c6",
       label: "Point light color",
     },
   });
