@@ -48,16 +48,9 @@ export function useDirectionalLightControls() {
         directionalLightIntensity: {
           value: 1,
           min: 0,
-          max: 10,
+          max: 2,
           step: 0.1,
           label: "Intensity",
-        },
-        directionalLightDecay: {
-          value: 0.2,
-          min: 0,
-          max: 1,
-          step: 0.01,
-          label: "Decay",
         },
         directionalLightEnabled: {
           value: true,
