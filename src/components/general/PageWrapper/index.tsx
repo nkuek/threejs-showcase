@@ -1,7 +1,10 @@
 import { motion } from "motion/react";
-import { useEffect, useRef } from "react";
-import { SitemapRoute } from "~/utils/sitemap";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router";
+import sitemap, { SitemapRoute } from "~/utils/sitemap";
 import { useAppContext } from "~/utils/useAppContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const blackBox = {
   initial: {
@@ -29,13 +32,36 @@ const blackBox = {
 };
 
 export default function PageWrapper({ route }: { route: SitemapRoute }) {
-  const { setTheme } = useAppContext();
+  const { setTheme, theme } = useAppContext();
+  const { pathname } = useLocation();
+  const [showHome, setShowHome] = useState(pathname !== sitemap.home.path);
   useEffect(() => {
     setTheme(route.theme);
   }, [route.theme, setTheme]);
   const blackBoxRef = useRef<HTMLDivElement>(null);
   return (
-    <motion.section>
+    <motion.section className="relative">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onAnimationComplete={(definition) => {
+          if (definition === "exit") {
+            setShowHome(pathname !== sitemap.home.path);
+          }
+        }}
+        aria-hidden={!showHome}
+        data-theme={theme}
+        className="z-10 absolute data-[theme=light]:text-stone-800 text-stone-100 flex top-0 left-0 right-0 transition-colors aria-hidden:hidden"
+      >
+        <Link
+          to={sitemap.home.path}
+          className="hover:cursor-pointer flex gap-2 items-center hover:underline absolute left-6 top-[76px]"
+        >
+          <FontAwesomeIcon icon={faArrowLeft} />
+          <span>Back to showcase</span>
+        </Link>
+      </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{
