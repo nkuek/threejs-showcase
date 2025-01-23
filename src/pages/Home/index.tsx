@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import sitemap from "~/utils/sitemap";
 import HomeCanvasContent from "./components/HomeCanvasContent";
 import { Leva } from "leva";
+import { Suspense } from "react";
 
 const hideLeva = true;
 
@@ -25,7 +26,9 @@ export default function Home() {
       </ul>
       <div className="absolute inset-0">
         <Canvas>
-          <HomeCanvasContent />
+          <Suspense>
+            <HomeCanvasContent />
+          </Suspense>
         </Canvas>
         <Leva hidden={hideLeva} />
       </div>
