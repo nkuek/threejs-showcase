@@ -63,7 +63,7 @@ export default function HalftoneShadingCanvasContent() {
       label: "Halftone Shadow Color",
     },
     halftoneShadowRepetitions: {
-      value: 200,
+      value: 200 / Math.min(window.devicePixelRatio, 2),
       min: 25,
       max: 300,
       step: 1,
@@ -74,7 +74,7 @@ export default function HalftoneShadingCanvasContent() {
       label: "Light color",
     },
     halftoneLightRepetitions: {
-      value: 200,
+      value: 200 / Math.min(window.devicePixelRatio, 2),
       min: 25,
       max: 300,
       step: 1,
