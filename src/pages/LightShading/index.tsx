@@ -1,15 +1,18 @@
 import { Canvas } from "@react-three/fiber";
-import { Leva } from "leva";
 import LightShadingCanvasContent from "./components/LightShadingCanvasContent";
+import { Text } from "@react-three/drei";
+import { Suspense } from "react";
+import LevaWrapper from "~/components/general/LevaWrapper";
 
 export default function LightShading() {
   return (
     <div className="h-svh bg-stone-800 w-full relative">
-      <div className="absolute w-[400px] right-0 top-[76px] z-10">
-        <Leva fill collapsed />
-      </div>
+      <LevaWrapper />
       <Canvas>
-        <LightShadingCanvasContent />
+        <Suspense>
+          <Text position={[-5, 2, -10]}>Shader Lighting</Text>
+          <LightShadingCanvasContent />
+        </Suspense>
       </Canvas>
     </div>
   );

@@ -1,4 +1,4 @@
-import { OrbitControls, Sky } from "@react-three/drei";
+import { OrbitControls, Sky, Text } from "@react-three/drei";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
 import fragmentShader from "./shaders/fragment.glsl";
@@ -168,6 +168,7 @@ export default function Fireworks() {
         }}
       >
         <Suspense fallback={null}>
+          <Text position={[0, 1, -15]}>Click to create fireworks!</Text>
           <OrbitControls enablePan={false} />
           <Sky
             mieCoefficient={0.005}

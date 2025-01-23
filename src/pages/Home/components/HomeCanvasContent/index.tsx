@@ -40,8 +40,8 @@ export default function HomeCanvasContent() {
 
   const [BlobInstances, BlobInstance] = createInstances<BlobInstance>();
 
-  const { color, uAmbientLightColor } = useControls({
-    color: {
+  const { blobColor, uAmbientLightColor } = useControls({
+    blobColor: {
       value: "#ffc6c6",
     },
     uAmbientLightColor: {
@@ -63,7 +63,7 @@ export default function HomeCanvasContent() {
           <lavaLampShaderMaterial
             key={LavaLampShaderMaterial.key}
             uTime={0}
-            uColor={new THREE.Color(color)}
+            uColor={blobColor}
             uAmbientLightColor={new THREE.Color(uAmbientLightColor)}
           />
           {Array.from({ length: 10 }).map((_, index) => (

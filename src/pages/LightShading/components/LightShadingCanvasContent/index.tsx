@@ -8,7 +8,7 @@ import {
   shaderMaterial,
 } from "@react-three/drei";
 import { extend, ShaderMaterialProps, useFrame } from "@react-three/fiber";
-import SuzanneModel from "../SuzanneModel";
+import SuzanneModel from "~/components/models/SuzanneModel";
 import { useControls } from "leva";
 import {
   useAmbientLightControls,

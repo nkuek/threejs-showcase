@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import HalftoneShading from "~/pages/HalftoneShading";
 
 export type SitemapPath = (typeof sitemap)[keyof typeof sitemap]["path"];
 
@@ -38,10 +39,17 @@ const sitemap = {
     theme: "dark",
   },
   lightShading: {
-    label: "Shader Light Shading",
-    path: "/light-shading",
+    label: "Shader Lighting",
+    path: "/shader-lighting",
     exact: true,
     component: <LazyLightShading />,
+    theme: "dark",
+  },
+  halftoneShading: {
+    label: "Halftone Shading",
+    path: "/halftone-shading",
+    exact: true,
+    component: <HalftoneShading />,
     theme: "dark",
   },
 } as const;
