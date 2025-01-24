@@ -51,7 +51,6 @@ const sitemap = {
     exact: true,
     component: <LazyHalftoneShading />,
     theme: "dark",
-    theme: "dark",
   },
 } as const;
 
