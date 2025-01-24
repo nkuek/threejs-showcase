@@ -16,6 +16,7 @@ export type SitemapRoute = {
 const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
 const LazyLightShading = lazy(() => import("~/pages/LightShading"));
+const LazyHalftoneShading = lazy(() => import("~/pages/HalftoneShading"));
 
 export const externalLinks = {
   portfolio: {
@@ -49,7 +50,8 @@ const sitemap = {
     label: "Halftone Shading",
     path: "/halftone-shading",
     exact: true,
-    component: <HalftoneShading />,
+    component: <LazyHalftoneShading />,
+    theme: "dark",
     theme: "dark",
   },
 } as const;

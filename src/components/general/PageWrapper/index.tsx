@@ -31,6 +31,41 @@ const blackBox = {
   },
 };
 
+const leftArrow = {
+  initial: {
+    translateX: "0%",
+  },
+  animate: {
+    translateX: "-100%",
+  },
+};
+const rightArrow = {
+  initial: {
+    translateX: "100%",
+  },
+  animate: {
+    translateX: "0%",
+  },
+};
+
+const topText = {
+  initial: {
+    translateY: "0%",
+  },
+  animate: {
+    translateY: "-100%",
+  },
+};
+
+const bottomText = {
+  initial: {
+    translateY: "100%",
+  },
+  animate: {
+    translateY: "0%",
+  },
+};
+
 export default function PageWrapper({ route }: { route: SitemapRoute }) {
   const { setTheme, theme } = useAppContext();
   const { pathname } = useLocation();
@@ -54,13 +89,33 @@ export default function PageWrapper({ route }: { route: SitemapRoute }) {
         data-theme={theme}
         className="z-10 absolute data-[theme=light]:text-stone-800 text-stone-100 flex top-0 left-0 right-0 transition-colors aria-hidden:hidden"
       >
-        <Link
-          to={sitemap.home.path}
-          className="hover:cursor-pointer flex gap-2 items-center hover:underline absolute left-6 top-[76px]"
-        >
-          <FontAwesomeIcon icon={faArrowLeft} />
-          <span>Back to showcase</span>
-        </Link>
+        <motion.div initial="initial" animate="initial" whileHover="animate">
+          <Link
+            to={sitemap.home.path}
+            className="hover:cursor-pointer flex gap-2 items-center absolute left-6 top-[76px] group"
+          >
+            <div className="overflow-hidden relative">
+              <motion.div variants={leftArrow} className="p-1">
+                <FontAwesomeIcon icon={faArrowLeft} aria-hidden />
+              </motion.div>
+              <motion.div variants={rightArrow} className="absolute top-0 p-1">
+                <FontAwesomeIcon icon={faArrowLeft} aria-hidden />
+              </motion.div>
+            </div>
+            <div className="overflow-hidden relative">
+              <motion.span variants={topText} className="flex">
+                Back to showcase
+              </motion.span>
+              <motion.span
+                variants={bottomText}
+                className="absolute top-0 left-0 group-hover:underline"
+                aria-hidden
+              >
+                Back to showcase
+              </motion.span>
+            </div>
+          </Link>
+        </motion.div>
       </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
