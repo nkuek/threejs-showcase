@@ -156,6 +156,23 @@ function FireworkGenerator({ counter }: { counter: number }) {
 export default function Fireworks() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [counter, setCounter] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const interactionTimeout = useRef<number>();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounter((c) => c + 1);
+    }, 1000);
+
+    if (hasInteracted) {
+      clearInterval(interval);
+      return;
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [hasInteracted]);
 
   return (
     <div className="bg-black h-svh w-full">
@@ -164,7 +181,14 @@ export default function Fireworks() {
         dpr={[window.devicePixelRatio, 2]}
         ref={canvasRef}
         onPointerDown={() => {
+          if (interactionTimeout.current) {
+            clearTimeout(interactionTimeout.current);
+          }
           setCounter((c) => c + 1);
+          setHasInteracted(true);
+          interactionTimeout.current = setTimeout(() => {
+            setHasInteracted(false);
+          }, 2000);
         }}
       >
         <Suspense fallback={null}>
