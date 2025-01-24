@@ -1,5 +1,4 @@
 import { lazy } from "react";
-import HalftoneShading from "~/pages/HalftoneShading";
 
 export type SitemapPath = (typeof sitemap)[keyof typeof sitemap]["path"];
 
