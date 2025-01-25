@@ -16,6 +16,7 @@ const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
 const LazyLightShading = lazy(() => import("~/pages/LightShading"));
 const LazyHalftoneShading = lazy(() => import("~/pages/HalftoneShading"));
+const LazyEarth = lazy(() => import("~/pages/Earth"));
 
 export const externalLinks = {
   portfolio: {
@@ -50,6 +51,13 @@ const sitemap = {
     path: "/halftone-shading",
     exact: true,
     component: <LazyHalftoneShading />,
+    theme: "dark",
+  },
+  earth: {
+    label: "Earth",
+    path: "/earth",
+    exact: true,
+    component: <LazyEarth />,
     theme: "dark",
   },
 } as const;
