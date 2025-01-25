@@ -24,7 +24,7 @@ export default function AnimatedLink({
       <Link
         className={twMerge(
           className,
-          "hover:cursor-pointer flex gap-2 items-center group",
+          "hover:cursor-pointer flex gap-1 items-center group",
           underline ? "underline" : "hover:underline"
         )}
         {...props}

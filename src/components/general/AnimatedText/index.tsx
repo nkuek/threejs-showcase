@@ -25,7 +25,7 @@ export default function AnimatedText({
 }) {
   return (
     <div className="overflow-hidden relative">
-      <motion.span variants={topText} className="flex">
+      <motion.span variants={topText} className="flex group-hover:underline">
         {children}
       </motion.span>
       <motion.span
