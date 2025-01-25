@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import EarthCanvasContent from "./components/EarthCanvasContent";
 import LevaWrapper from "~/components/general/LevaWrapper";
+import AnimatedLink from "~/components/general/AnimatedLink";
 
 export default function Earth() {
   return (
@@ -12,15 +13,16 @@ export default function Earth() {
           <EarthCanvasContent />
         </Suspense>
       </Canvas>
-      <span className="z-10 text-slate-100 absolute bottom-0 left-0 right-0 text-center text-sm">
+      <div className="z-10 text-slate-100 absolute bottom-0 left-0 right-0 text-center text-sm flex items-center justify-center gap-2">
         Texture Assets Credit:{" "}
-        <a
-          className="underline"
-          href="https://www.solarsystemscope.com/textures/"
+        <AnimatedLink
+          arrowProps={{ direction: "right" }}
+          to="https://www.solarsystemscope.com/textures/"
+          underline
         >
           Solar Textures
-        </a>
-      </span>
+        </AnimatedLink>
+      </div>
     </div>
   );
 }
