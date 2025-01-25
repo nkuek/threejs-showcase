@@ -81,7 +81,7 @@ export default function PageWrapper({ route }: { route: SitemapRoute }) {
             setTheme(route.theme);
           }
         }}
-        className="z-20 absolute inset-0 w-full bg-slate-950 data-[animation=initial]:origin-bottom data-[animation=exit]:origin-top"
+        className="z-20 absolute inset-0 w-full bg-slate-900 data-[animation=initial]:origin-bottom data-[animation=exit]:origin-top"
         data-animation="initial"
         initial="initial"
         animate="animate"
