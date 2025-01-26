@@ -16,7 +16,6 @@ export default function Earth() {
       <div className="z-10 text-slate-100 absolute bottom-0 left-0 right-0 text-center text-sm flex items-center justify-center gap-2">
         Texture Assets Credit:{" "}
         <AnimatedLink
-          arrowProps={{ direction: "right" }}
           to="https://www.solarsystemscope.com/textures/"
           underline
           external

@@ -6,21 +6,31 @@ import AnimatedText from "../AnimatedText";
 import { AnimatedArrowProps } from "../AnimatedArrow/types";
 import { twMerge } from "tailwind-merge";
 
-type AnimatedLinkProps = LinkProps & {
+type AnimatedLinkPropsBase = {
+  underline?: boolean;
+} & LinkProps;
+
+type AnimatedInternalLinkProps = {
   underline?: boolean;
   arrowProps: Omit<AnimatedArrowProps, "orientation">;
-  external?: boolean;
-};
+  external?: false;
+} & AnimatedLinkPropsBase;
+
+type AnimatedExternalLinkProps = {
+  external: true;
+} & AnimatedLinkPropsBase;
+
+type AnimatedLinkProps = AnimatedInternalLinkProps | AnimatedExternalLinkProps;
 
 export default function AnimatedLink({
   children,
-  arrowProps,
   className,
   underline,
-  external,
   ...props
 }: PropsWithChildren<AnimatedLinkProps>) {
-  const { direction } = arrowProps;
+  const arrowProps: AnimatedArrowProps = props.external
+    ? { direction: "right", orientation: "diagonal" }
+    : props.arrowProps;
   return (
     <motion.div initial="initial" animate="initial" whileHover="animate">
       <Link
@@ -31,13 +41,14 @@ export default function AnimatedLink({
         )}
         {...props}
       >
-        {direction === "left" && <AnimatedArrow {...arrowProps} />}
+        {props.external
+          ? null
+          : arrowProps.direction === "left" && (
+              <AnimatedArrow {...arrowProps} />
+            )}
         <AnimatedText>{children}</AnimatedText>
-        {(direction === "right" || external) && (
-          <AnimatedArrow
-            {...arrowProps}
-            orientation={external ? "diagonal" : "horizontal"}
-          />
+        {(props.external || props.arrowProps.direction === "right") && (
+          <AnimatedArrow {...arrowProps} />
         )}
       </Link>
     </motion.div>
