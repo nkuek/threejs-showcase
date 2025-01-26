@@ -18,6 +18,10 @@ type AnimatedInternalLinkProps = {
 
 type AnimatedExternalLinkProps = {
   external: true;
+  arrowProps?: {
+    direction: Extract<AnimatedArrowProps["direction"], "right">;
+    orientation: Extract<AnimatedArrowProps["orientation"], "diagonal">;
+  };
 } & AnimatedLinkPropsBase;
 
 type AnimatedLinkProps = AnimatedInternalLinkProps | AnimatedExternalLinkProps;
@@ -26,11 +30,10 @@ export default function AnimatedLink({
   children,
   className,
   underline,
+  arrowProps = { direction: "right" },
+  external,
   ...props
 }: PropsWithChildren<AnimatedLinkProps>) {
-  const arrowProps: AnimatedArrowProps = props.external
-    ? { direction: "right", orientation: "diagonal" }
-    : props.arrowProps;
   return (
     <motion.div initial="initial" animate="initial" whileHover="animate">
       <Link
@@ -41,13 +44,13 @@ export default function AnimatedLink({
         )}
         {...props}
       >
-        {props.external
+        {external
           ? null
           : arrowProps.direction === "left" && (
               <AnimatedArrow {...arrowProps} />
             )}
         <AnimatedText>{children}</AnimatedText>
-        {(props.external || props.arrowProps.direction === "right") && (
+        {(external || arrowProps.direction === "right") && (
           <AnimatedArrow {...arrowProps} />
         )}
       </Link>
