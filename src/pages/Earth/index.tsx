@@ -19,6 +19,7 @@ export default function Earth() {
           arrowProps={{ direction: "right" }}
           to="https://www.solarsystemscope.com/textures/"
           underline
+          external
         >
           Solar Textures
         </AnimatedLink>

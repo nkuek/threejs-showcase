@@ -8,7 +8,8 @@ import { twMerge } from "tailwind-merge";
 
 type AnimatedLinkProps = LinkProps & {
   underline?: boolean;
-  arrowProps: AnimatedArrowProps;
+  arrowProps: Omit<AnimatedArrowProps, "orientation">;
+  external?: boolean;
 };
 
 export default function AnimatedLink({
@@ -16,6 +17,7 @@ export default function AnimatedLink({
   arrowProps,
   className,
   underline,
+  external,
   ...props
 }: PropsWithChildren<AnimatedLinkProps>) {
   const { direction } = arrowProps;
@@ -31,7 +33,12 @@ export default function AnimatedLink({
       >
         {direction === "left" && <AnimatedArrow {...arrowProps} />}
         <AnimatedText>{children}</AnimatedText>
-        {direction === "right" && <AnimatedArrow {...arrowProps} />}
+        {(direction === "right" || external) && (
+          <AnimatedArrow
+            {...arrowProps}
+            orientation={external ? "diagonal" : "horizontal"}
+          />
+        )}
       </Link>
     </motion.div>
   );
