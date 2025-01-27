@@ -1,13 +1,13 @@
 import { Canvas } from "@react-three/fiber";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import sitemap from "~/utils/sitemap";
 import HomeCanvasContent from "./components/HomeCanvasContent";
 import { Leva } from "leva";
 import { Suspense } from "react";
 
-const hideLeva = true;
-
 export default function Home() {
+  const [searchParams] = useSearchParams();
+  const showLeva = searchParams.has("debug");
   return (
     <div className="h-svh grid place-items-center w-full">
       <ul className="flex flex-col gap-8 justify-center h-full p-4 z-[1]">
@@ -30,7 +30,7 @@ export default function Home() {
             <HomeCanvasContent />
           </Suspense>
         </Canvas>
-        <Leva hidden={hideLeva} />
+        <Leva hidden={!showLeva} />
       </div>
     </div>
   );

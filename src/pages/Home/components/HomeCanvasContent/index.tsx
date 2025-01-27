@@ -6,7 +6,7 @@ import {
   InstancedAttribute,
   shaderMaterial,
 } from "@react-three/drei";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useControls } from "leva";
 
@@ -38,7 +38,10 @@ extend({ LavaLampShaderMaterial });
 export default function HomeCanvasContent() {
   const meshRef = useRef<THREE.InstancedMesh | null>(null);
 
-  const [BlobInstances, BlobInstance] = createInstances<BlobInstance>();
+  const [BlobInstances, BlobInstance] = useMemo(
+    () => createInstances<BlobInstance>(),
+    []
+  );
 
   const { blobColor, uAmbientLightColor } = useControls({
     blobColor: {
@@ -55,6 +58,18 @@ export default function HomeCanvasContent() {
     const material = meshRef.current.material as THREE.ShaderMaterial;
     material.uniforms.uTime.value = clock.getElapsedTime();
   });
+
+  const blobs = useMemo(() => {
+    return Array.from({ length: 10 }).map((_, index) => (
+      <BlobInstance
+        key={index}
+        aPosition={[Math.random() * 10 - 5, 0, Math.random() * -5]}
+        aRandomness={Math.random() * 5 + 1}
+        aScale={Math.random() * 2 + 1}
+        aOffset={Math.random() * 3 + 1}
+      />
+    ));
+  }, [BlobInstance]);
   return (
     <>
       <group>
@@ -66,15 +81,7 @@ export default function HomeCanvasContent() {
             uColor={blobColor}
             uAmbientLightColor={new THREE.Color(uAmbientLightColor)}
           />
-          {Array.from({ length: 10 }).map((_, index) => (
-            <BlobInstance
-              key={index}
-              aPosition={[Math.random() * 10 - 5, 0, Math.random() * -5]}
-              aRandomness={Math.random() * 5 + 1}
-              aScale={Math.random() * 2 + 1}
-              aOffset={Math.random() * 3 + 1}
-            />
-          ))}
+          {blobs}
           <InstancedAttribute name="aRandomness" defaultValue={3} />
           <InstancedAttribute name="aPosition" defaultValue={[0, 0, 0]} />
           <InstancedAttribute name="aScale" defaultValue={1} />
