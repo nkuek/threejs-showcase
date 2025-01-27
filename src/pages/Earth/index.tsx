@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import EarthCanvasContent from "./components/EarthCanvasContent";
 import LevaWrapper from "~/components/general/LevaWrapper";
 import AnimatedLink from "~/components/general/AnimatedLink";
+import { Loader } from "@react-three/drei";
 
 export default function Earth() {
   return (
@@ -13,6 +14,7 @@ export default function Earth() {
           <EarthCanvasContent />
         </Suspense>
       </Canvas>
+      <Loader />
       <div className="z-10 text-slate-100 absolute bottom-0 left-0 right-0 text-center text-sm flex items-center justify-center gap-2">
         Texture Assets Credit:{" "}
         <AnimatedLink
