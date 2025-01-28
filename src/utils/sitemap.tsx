@@ -17,6 +17,9 @@ const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
 const LazyLightShading = lazy(() => import("~/pages/LightShading"));
 const LazyHalftoneShading = lazy(() => import("~/pages/HalftoneShading"));
 const LazyEarth = lazy(() => import("~/pages/Earth"));
+const LazyParticleDisplacement = lazy(
+  () => import("~/pages/ParticleDisplacement")
+);
 
 export const externalLinks = {
   portfolio: {
@@ -58,6 +61,13 @@ const sitemap = {
     path: "/earth",
     exact: true,
     component: <LazyEarth />,
+    theme: "dark",
+  },
+  particleDisplacement: {
+    label: "Particle Displacement",
+    path: "/particle-displacement",
+    exact: true,
+    component: <LazyParticleDisplacement />,
     theme: "dark",
   },
 } as const;
