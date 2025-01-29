@@ -2,6 +2,7 @@ import {
   OrbitControls,
   PerspectiveCamera,
   shaderMaterial,
+  Stars,
 } from "@react-three/drei";
 import { extend, ShaderMaterialProps, useFrame } from "@react-three/fiber";
 import earthFragmentShader from "~/pages/Earth/shaders/earth/fragment.glsl";
@@ -156,6 +157,7 @@ export default function EarthCanvasContent() {
           uAtmosphereTwilightColor={atmostphereTwilightColor}
         />
       </mesh>
+      <Stars />
     </>
   );
 }
