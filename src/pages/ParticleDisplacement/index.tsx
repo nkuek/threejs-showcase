@@ -11,14 +11,14 @@ export default function ParticlesDisplacement() {
   const cursorCoordinatesRef = useRef<THREE.Vector2>(
     new THREE.Vector2(9999, 9999)
   );
-  const previousCursorCoordinatesRef = useRef<THREE.Vector2 | null>(null);
+  const previousCursorCoordinatesRef = useRef<THREE.Vector2>(
+    new THREE.Vector2(9999, 9999)
+  );
 
   return (
     <div className="bg-black h-svh">
       <Canvas
         onPointerMove={(e) => {
-          previousCursorCoordinatesRef.current =
-            cursorCoordinatesRef.current.clone();
           const clientX = e.clientX;
           const clientY = e.clientY;
           const container = e.target as HTMLCanvasElement;
@@ -37,12 +37,13 @@ export default function ParticlesDisplacement() {
             cursorCoordinatesRef={cursorCoordinatesRef}
             interactiveCanvasCoordinatesRef={interactiveCanvasCoordinatesRef}
             interactiveCanvasRef={interactiveCanvasRef}
+            previousCursorCoordinatesRef={previousCursorCoordinatesRef}
           />
         </Suspense>
       </Canvas>
       <canvas
         ref={interactiveCanvasRef}
-        className="absolute bottom-0 w-[300px] h-[300px]"
+        className="absolute bottom-0 w-[300px] h-[300px] hidden"
       />
     </div>
   );

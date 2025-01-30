@@ -1,6 +1,5 @@
 import {
   ComputedAttribute,
-  OrbitControls,
   PerspectiveCamera,
   shaderMaterial,
   useTexture,
@@ -39,12 +38,14 @@ type ParticlesDisplacementCanvasContentProps = {
   cursorCoordinatesRef: React.MutableRefObject<THREE.Vector2>;
   interactiveCanvasCoordinatesRef: React.MutableRefObject<THREE.Vector2>;
   interactiveCanvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  previousCursorCoordinatesRef: React.MutableRefObject<THREE.Vector2>;
 };
 
 export default function ParticlesDisplacementCanvasContent({
   cursorCoordinatesRef,
   interactiveCanvasRef,
   interactiveCanvasCoordinatesRef,
+  previousCursorCoordinatesRef,
 }: ParticlesDisplacementCanvasContentProps) {
   const { size, raycaster, camera } = useThree();
   const pointsRef = useRef<THREE.Points>(null);
@@ -62,12 +63,20 @@ export default function ParticlesDisplacementCanvasContent({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     const image = new Image();
     image.src = glow;
     imageRef.current = image;
   }, [interactiveCanvasRef]);
+
+  useEffect(() => {
+    if (!pointsRef.current) return;
+    // the plane geometry automatically sets the indices to 1
+    // this is incorrect when is comes to particles because there are many overlapping vertices towards the center of the geometry
+    // this causes particles to be drawn over each other which can be seen if you include Additive blending
+    // By setting the indices to null, the GPU will ignore the indices and draw all vertices
+    pointsRef.current.geometry.setIndex(null);
+    pointsRef.current.geometry.deleteAttribute("normal");
+  }, []);
 
   useFrame(() => {
     if (
@@ -76,6 +85,7 @@ export default function ParticlesDisplacementCanvasContent({
       !interactiveCanvasRef.current
     )
       return;
+
     const material = pointsRef.current.material as THREE.ShaderMaterial;
     material.uniforms.uResolution.value = [size.width, size.height];
 
@@ -101,10 +111,16 @@ export default function ParticlesDisplacementCanvasContent({
       interactiveCanvasRef.current.height
     );
 
-    const glowSize = interactiveCanvasRef.current.width / 4;
+    const distance = previousCursorCoordinatesRef.current.distanceTo(
+      cursorCoordinatesRef.current
+    );
+    previousCursorCoordinatesRef.current.copy(cursorCoordinatesRef.current);
+    const distanceAlpha = Math.min(distance * 100, 1);
+
+    const glowSize = Math.floor(interactiveCanvasRef.current.width / 4);
 
     ctx.globalCompositeOperation = "lighten";
-    ctx.globalAlpha = 1;
+    ctx.globalAlpha = distanceAlpha;
 
     ctx.drawImage(
       imageRef.current,
@@ -121,13 +137,23 @@ export default function ParticlesDisplacementCanvasContent({
   return (
     <>
       <points ref={pointsRef}>
-        <planeGeometry args={[12, 12, 128, 128]}>
+        <planeGeometry args={[14, 14, 128, 128]}>
           <ComputedAttribute
             name="aIntensity"
             compute={(geometry) => {
               const arr = new Float32Array(geometry.attributes.position.count);
               for (let i = 0; i < arr.length; i++) {
                 arr[i] = Math.random() * 3;
+              }
+              return new THREE.BufferAttribute(arr, 1);
+            }}
+          />
+          <ComputedAttribute
+            name="aAngle"
+            compute={(geometry) => {
+              const arr = new Float32Array(geometry.attributes.position.count);
+              for (let i = 0; i < arr.length; i++) {
+                arr[i] = Math.random() * Math.PI * 2;
               }
               return new THREE.BufferAttribute(arr, 1);
             }}
@@ -145,11 +171,10 @@ export default function ParticlesDisplacementCanvasContent({
         />
       </points>
       <mesh ref={planeRef}>
-        <planeGeometry args={[12, 12]} />
+        <planeGeometry args={[14, 14]} />
         <meshBasicMaterial visible={false} />
       </mesh>
       <PerspectiveCamera makeDefault position={[0, 0, 20]} />
-      <OrbitControls />
     </>
   );
 }
