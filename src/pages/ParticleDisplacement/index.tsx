@@ -4,6 +4,7 @@ import ParticlesDisplacementCanvasContent from "./components/ParticlesDisplaceme
 import * as THREE from "three";
 
 export default function ParticlesDisplacement() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const interactiveCanvasRef = useRef<HTMLCanvasElement>(null);
   const interactiveCanvasCoordinatesRef = useRef<THREE.Vector2>(
     new THREE.Vector2(9999, 9999)
@@ -16,17 +17,27 @@ export default function ParticlesDisplacement() {
   );
 
   return (
-    <div className="bg-black h-svh">
+    <div
+      className="bg-black h-svh data-[dragging=true]:touch-none"
+      ref={containerRef}
+    >
       <Canvas
         onPointerMove={(e) => {
+          if (!containerRef.current) return;
+          containerRef.current.setAttribute("data-dragging", "true");
           const clientX = e.clientX;
           const clientY = e.clientY;
-          const container = e.target as HTMLCanvasElement;
+          const containerEl = e.target as HTMLCanvasElement;
+          const container = containerEl.getBoundingClientRect();
 
           const x = (clientX / container.width) * 2 - 1;
           const y = -(clientY / container.height) * 2 + 1;
           const newPosition = new THREE.Vector2(x, y);
           cursorCoordinatesRef.current = newPosition;
+        }}
+        onPointerUp={() => {
+          if (!containerRef.current) return;
+          containerRef.current.setAttribute("data-dragging", "false");
         }}
         onPointerOut={() => {
           cursorCoordinatesRef.current.set(9999, 9999);
