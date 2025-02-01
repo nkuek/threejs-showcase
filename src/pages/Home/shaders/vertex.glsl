@@ -12,14 +12,14 @@ attribute vec3 aPosition;
 attribute float aScale;
 attribute float aOffset;
 
-#include ../../../utils/shaders/perlinNoise.glsl
+#include ../../../utils/shaders/simplexNoise3d.glsl
 
 void main() {
-    float displacementSpeed = uTime * 0.25;
+    float displacementSpeed = uTime * 0.15;
     float displacementStrength = 0.4;
     vec3 newPosition = position + aPosition;
 
-    float displacement = cnoise(newPosition + vec3(displacementSpeed));
+    float displacement = simplexNoise3d(newPosition * 0.55 + vec3(displacementSpeed));
     displacement *= displacementStrength;
 
     newPosition += normal * displacement;

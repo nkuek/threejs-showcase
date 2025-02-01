@@ -20,6 +20,7 @@ const LazyEarth = lazy(() => import("~/pages/Earth"));
 const LazyParticleDisplacement = lazy(
   () => import("~/pages/ParticleDisplacement")
 );
+const LazyParticleMorphing = lazy(() => import("~/pages/ParticleMorphing"));
 
 export const externalLinks = {
   portfolio: {
@@ -68,6 +69,13 @@ const sitemap = {
     path: "/particle-displacement",
     exact: true,
     component: <LazyParticleDisplacement />,
+    theme: "dark",
+  },
+  particleMorphing: {
+    label: "Particle Morphing",
+    path: "/particle-morphing",
+    exact: true,
+    component: <LazyParticleMorphing />,
     theme: "dark",
   },
 } as const;
