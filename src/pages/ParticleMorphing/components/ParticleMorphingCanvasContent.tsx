@@ -66,6 +66,16 @@ export default function ParticleMorphingCanvasContent() {
     },
   }));
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      set({ morphTarget: (currentModel.current + 1) % scene.children.length });
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [scene.children.length, set]);
+
   const { modelPositions, particleSizes } = useMemo(() => {
     let maxCount = 0;
     const positions = scene.children.map((child) => {
