@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useRef } from "react";
-import ParticlesDisplacementCanvasContent from "./components/ParticlesDisplacementCanvasContents";
 import * as THREE from "three";
+import ParticlesDisplacementCanvasContent from "./components/ParticlesDisplacementCanvasContent";
 
 export default function ParticlesDisplacement() {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -4,8 +4,8 @@ import {
   shaderMaterial,
   useTexture,
 } from "@react-three/drei";
-import vertexShader from "../shaders/vertex.glsl";
-import fragmentShader from "../shaders/fragment.glsl";
+import vertexShader from "~/pages/ParticleDisplacement/shaders/vertex.glsl";
+import fragmentShader from "~/pages/ParticleDisplacement/shaders/fragment.glsl";
 import {
   extend,
   ShaderMaterialProps,
@@ -14,8 +14,8 @@ import {
 } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
-import chichiImage from "../assets/chichi.jpg";
-import glow from "../assets/glow.png";
+import chichiImage from "~/pages/ParticleDisplacement/assets/chichi.jpg";
+import glow from "~/pages/ParticleDisplacement/assets/glow.png";
 
 type CustomParticlesMaterialUniforms = {
   uResolution: [number, number];

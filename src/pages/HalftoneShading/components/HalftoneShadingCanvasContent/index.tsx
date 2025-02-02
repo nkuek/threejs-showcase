@@ -7,8 +7,8 @@ import {
 } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
-import vertexShader from "../shaders/vertex.glsl";
-import fragmentShader from "../shaders/fragment.glsl";
+import vertexShader from "~/pages/HalftoneShading/shaders/vertex.glsl";
+import fragmentShader from "~/pages/HalftoneShading/shaders/fragment.glsl";
 import { useControls } from "leva";
 import SuzanneModel from "~/components/models/SuzanneModel";
 
