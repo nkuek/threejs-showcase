@@ -203,7 +203,7 @@ export default function ParticleFlowFieldCanvasContent() {
       <points ref={pointsRef}>
         <bufferGeometry />
         <particleFlowFieldShaderMaterial
-          uSize={0.07}
+          uSize={0.12}
           uResolution={[window.innerWidth, window.innerHeight]}
           key={ParticleFlowFieldShaderMaterial.key}
         />
