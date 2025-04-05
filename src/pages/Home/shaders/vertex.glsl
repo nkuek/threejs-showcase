@@ -14,13 +14,16 @@ attribute float aOffset;
 
 #include ../../../utils/shaders/simplexNoise3d.glsl
 
+float getDisplacement(vec3 position, float speed, float strength) {
+    return simplexNoise3d(position * 0.55 + vec3(speed)) * strength;
+}
+
 void main() {
     float displacementSpeed = uTime * 0.15;
     float displacementStrength = 0.4;
     vec3 newPosition = position + aPosition;
 
-    float displacement = simplexNoise3d(newPosition * 0.55 + vec3(displacementSpeed));
-    displacement *= displacementStrength;
+    float displacement = getDisplacement(newPosition, displacementSpeed, displacementStrength);
 
     newPosition += normal * displacement;
 
