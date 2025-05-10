@@ -7,7 +7,7 @@ import {
   PerspectiveCamera,
   shaderMaterial,
 } from "@react-three/drei";
-import { extend, ShaderMaterialProps, useFrame } from "@react-three/fiber";
+import { extend, ThreeElement, useFrame } from "@react-three/fiber";
 import SuzanneModel from "~/components/models/SuzanneModel";
 import { useControls } from "leva";
 import {
@@ -248,6 +248,7 @@ export default function LightShadingCanvasContent() {
 // https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    customShaderMaterial: CustomShaderMaterialUniforms & ShaderMaterialProps;
+    customShaderMaterial: CustomShaderMaterialUniforms &
+      ThreeElement<typeof CustomShaderMaterial>;
   }
 }

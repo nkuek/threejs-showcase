@@ -6,12 +6,7 @@ import {
 } from "@react-three/drei";
 import particleMorphingVertexShader from "../shaders/vertex.glsl";
 import particleMorphingFragmentShader from "../shaders/fragment.glsl";
-import {
-  extend,
-  ShaderMaterialProps,
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
+import { extend, ThreeElement, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import modelsGLB from "../assets/models.glb?url";
@@ -149,8 +144,7 @@ export default function ParticleMorphingCanvasContent() {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-aScale"
-            array={particleSizes}
-            itemSize={1}
+            args={[particleSizes, 1]}
           />
         </bufferGeometry>
         <particleMorphingShaderMaterial
@@ -175,6 +169,6 @@ export default function ParticleMorphingCanvasContent() {
 declare module "@react-three/fiber" {
   interface ThreeElements {
     particleMorphingShaderMaterial: ParticleMorphingShaderMaterialUniforms &
-      ShaderMaterialProps;
+      ThreeElement<typeof ParticleMorphingShaderMaterial>;
   }
 }
