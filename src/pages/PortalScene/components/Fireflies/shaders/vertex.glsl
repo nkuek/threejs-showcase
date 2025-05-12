@@ -10,7 +10,7 @@ attribute float aOffset;
 void main() {
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     float randomness = simplexNoise3d(modelPosition.xyz + uTime * 0.01 + aOffset);
-    modelPosition.y += sin(uTime + randomness) * aScale * randomness * 0.1;
+    modelPosition.y += max(sin(uTime + randomness) * aScale * randomness * 0.1, 0.3);
     modelPosition.z += cos(uTime + randomness * 5.0) * aScale * 0.1;
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;

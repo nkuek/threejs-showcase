@@ -34,12 +34,15 @@ extend({ FireflyShaderMaterial });
 export default function Fireflies() {
   const fireflyRef = useRef<THREE.ShaderMaterial>(null);
   const { size } = useThree();
-  const { fireflySize } = useControls({
+  const { fireflySize, color } = useControls({
     fireflySize: {
       value: 200,
       min: 10,
       max: 300,
       step: 1,
+    },
+    color: {
+      value: "#ffeac9",
     },
   });
 
@@ -100,7 +103,7 @@ export default function Fireflies() {
       </bufferGeometry>
       <fireflyShaderMaterial
         uTime={0}
-        uColor="#FFFFF4"
+        uColor={color}
         uSize={fireflySize}
         key={FireflyShaderMaterial.key}
         blending={THREE.AdditiveBlending}
