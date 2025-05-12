@@ -31,30 +31,17 @@ export default function PortalSceneCanvasContent() {
         makeDefault
         position={[5, 5, 7]}
       />
-      <mesh
-        geometry={bakedModel.geometry}
-        rotation={bakedModel.rotation}
-        position={bakedModel.position}
-      >
+      <mesh geometry={bakedModel.geometry}>
         <meshBasicMaterial map={texture} />
       </mesh>
       {lights.map((light, index) => {
         return (
-          <mesh
-            key={index}
-            geometry={light.geometry}
-            position={light.position}
-            rotation={light.rotation}
-          >
+          <mesh key={index} geometry={light.geometry}>
             <meshBasicMaterial color="#FFFFF4" />
           </mesh>
         );
       })}
-      <mesh
-        geometry={portalLight.geometry}
-        position={portalLight.position}
-        rotation={portalLight.rotation}
-      >
+      <mesh geometry={portalLight.geometry}>
         <PortalMaterial />
       </mesh>
       <Fireflies />

@@ -6,12 +6,7 @@ import {
 } from "@react-three/drei";
 import vertexShader from "~/pages/ParticleDisplacement/shaders/vertex.glsl";
 import fragmentShader from "~/pages/ParticleDisplacement/shaders/fragment.glsl";
-import {
-  extend,
-  ShaderMaterialProps,
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
+import { extend, ThreeElement, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import chichiImage from "~/pages/ParticleDisplacement/assets/chichi.jpg";
@@ -184,6 +179,6 @@ export default function ParticlesDisplacementCanvasContent({
 declare module "@react-three/fiber" {
   interface ThreeElements {
     customParticlesMaterial: CustomParticlesMaterialUniforms &
-      ShaderMaterialProps;
+      ThreeElement<typeof CustomParticlesMaterial>;
   }
 }

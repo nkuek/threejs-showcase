@@ -7,12 +7,7 @@ import {
 import fragmentShader from "~/pages/ParticleFlowField/shaders/fragment.glsl";
 import vertexShader from "~/pages/ParticleFlowField/shaders/vertex.glsl";
 import gpgpuParticleShader from "~/pages/ParticleFlowField/shaders/gpgpu/particles.glsl";
-import {
-  extend,
-  ShaderMaterialProps,
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
+import { extend, ThreeElement, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import modelGLB from "~/pages/ParticleFlowField/assets/model.glb?url";
@@ -223,6 +218,6 @@ export default function ParticleFlowFieldCanvasContent() {
 declare module "@react-three/fiber" {
   interface ThreeElements {
     particleFlowFieldShaderMaterial: ParticleFlowFieldShaderMaterialUniforms &
-      ShaderMaterialProps;
+      ThreeElement<typeof ParticleFlowFieldShaderMaterial>;
   }
 }
