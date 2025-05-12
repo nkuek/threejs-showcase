@@ -22,6 +22,7 @@ const LazyParticleDisplacement = lazy(
 );
 const LazyParticleMorphing = lazy(() => import("~/pages/ParticleMorphing"));
 const LazyParticleFlowField = lazy(() => import("~/pages/ParticleFlowField"));
+const LazyPortalScene = lazy(() => import("~/pages/PortalScene"));
 
 export const externalLinks = {
   portfolio: {
@@ -84,6 +85,13 @@ const sitemap = {
     path: "/particle-flow-field",
     exact: true,
     component: <LazyParticleFlowField />,
+    theme: "dark",
+  },
+  portalScene: {
+    label: "Portal Scene",
+    path: "/portal",
+    exact: true,
+    component: <LazyPortalScene />,
     theme: "dark",
   },
 } as const;
