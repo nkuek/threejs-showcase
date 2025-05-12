@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import sitemap, { SitemapRoute } from "~/utils/sitemap";
 import { useAppContext } from "~/utils/useAppContext";
 import AnimatedLink from "../AnimatedLink";
+import { Loader } from "@react-three/drei";
 
 const blackBox = {
   initial: {
@@ -88,6 +89,7 @@ export default function PageWrapper({ route }: { route: SitemapRoute }) {
         exit="exit"
         variants={blackBox}
       />
+      <Loader />
     </motion.section>
   );
 }

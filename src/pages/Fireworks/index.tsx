@@ -1,5 +1,5 @@
-import { OrbitControls, Sky, Text } from "@react-three/drei";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { OrbitControls, Sky, Text, useTexture } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
 import fragmentShader from "./shaders/fragment.glsl";
 import vertexShader from "./shaders/vertex.glsl";
@@ -95,9 +95,20 @@ function createFireworks({
   return firework;
 }
 
+useTexture.preload([
+  texture1,
+  texture2,
+  texture3,
+  texture4,
+  texture5,
+  texture6,
+  texture7,
+  texture8,
+]);
+
 function FireworkGenerator({ counter }: { counter: number }) {
   const { size, scene } = useThree();
-  const fireworkTextures = useLoader(THREE.TextureLoader, [
+  const fireworkTextures = useTexture([
     texture1,
     texture2,
     texture3,

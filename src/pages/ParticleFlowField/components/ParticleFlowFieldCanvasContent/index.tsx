@@ -32,6 +32,8 @@ const ParticleFlowFieldShaderMaterial = shaderMaterial(
 
 extend({ ParticleFlowFieldShaderMaterial });
 
+useGLTF.preload([modelGLB]);
+
 export default function ParticleFlowFieldCanvasContent() {
   const { size, gl } = useThree();
 

@@ -10,6 +10,8 @@ import * as THREE from "three";
 import Fireflies from "../Fireflies";
 import PortalMaterial from "../PortalMaterial/";
 
+useTexture.preload([portalTexture]);
+
 export default function PortalSceneCanvasContent() {
   const { nodes } = useGLTF(portal, true);
   const texture = useTexture(portalTexture);

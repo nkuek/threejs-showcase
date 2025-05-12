@@ -11,6 +11,8 @@ import { useControls } from "leva";
 import { useThree } from "@react-three/fiber";
 import Shade from "./postprocessing/Shade";
 
+useTexture.preload([perlin, background]);
+
 export default function ShadeCanvasContent() {
   const { viewport } = useThree();
   const effectRef = useRef<ShadeEffect>(null);

@@ -1,7 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import ParticleMorphingCanvasContent from "./components/ParticleMorphingCanvasContent";
 import { Suspense } from "react";
-import { Loader } from "@react-three/drei";
 
 export default function ParticleMorphing() {
   return (
@@ -11,7 +10,6 @@ export default function ParticleMorphing() {
           <ParticleMorphingCanvasContent />
         </Suspense>
       </Canvas>
-      <Loader />
     </div>
   );
 }
