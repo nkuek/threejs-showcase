@@ -5,6 +5,7 @@ import * as THREE from "three";
 
 export type ShadeEffectProps = {
   texture: THREE.Texture;
+  backgroundTexture: THREE.Texture;
   radius: number;
   angle: number;
   xStretch: number;
@@ -15,6 +16,7 @@ export type ShadeEffectProps = {
 export default class ShadeEffect extends Effect {
   constructor({
     texture,
+    backgroundTexture,
     radius,
     angle,
     xStretch,
@@ -34,6 +36,7 @@ export default class ShadeEffect extends Effect {
         ["uYStretch", new Uniform(yStretch)],
         ["uCenter", new Uniform(new THREE.Vector2(...center))],
         ["uTime", new Uniform(0)],
+        ["uBackgroundTexture", new Uniform(backgroundTexture)],
       ]),
     });
   }
