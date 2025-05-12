@@ -1,4 +1,4 @@
-import { extend, ShaderMaterialProps, useFrame } from "@react-three/fiber";
+import { extend, ThreeElement, useFrame } from "@react-three/fiber";
 import vertexShader from "../../shaders/vertex.glsl";
 import fragmentShader from "../../shaders/fragment.glsl";
 import {
@@ -97,6 +97,6 @@ export default function HomeCanvasContent() {
 declare module "@react-three/fiber" {
   interface ThreeElements {
     lavaLampShaderMaterial: LavaLampShaderMaterialUniforms &
-      ShaderMaterialProps;
+      ThreeElement<typeof LavaLampShaderMaterial>;
   }
 }

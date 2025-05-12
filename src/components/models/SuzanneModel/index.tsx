@@ -6,21 +6,22 @@ Command: npx gltfjsx@6.5.3 ./src/pages/LightShading/assets/suzanne.glb
 import { useGLTF } from "@react-three/drei";
 import suzanne from "./suzanne.glb?url";
 import * as THREE from "three";
-import { GroupProps } from "@react-three/fiber";
-import { forwardRef, PropsWithChildren } from "react";
+import { PropsWithChildren, RefObject } from "react";
 
-const SuzanneModel = forwardRef<THREE.Group, PropsWithChildren<GroupProps>>(
-  (props, ref) => {
-    const { nodes } = useGLTF(suzanne);
-    const suzanneNode = nodes.Suzanne as THREE.Mesh;
-    return (
-      <group {...props} dispose={null} ref={ref}>
-        <mesh geometry={suzanneNode.geometry}>{props.children}</mesh>
-      </group>
-    );
-  }
-);
+type SuzanneModelProps = {
+  ref: RefObject<THREE.Group>;
+};
 
-export default SuzanneModel;
+export default function SuzanneModel(
+  props: PropsWithChildren<SuzanneModelProps>
+) {
+  const { nodes } = useGLTF(suzanne);
+  const suzanneNode = nodes.Suzanne as THREE.Mesh;
+  return (
+    <group {...props} dispose={null} ref={props.ref}>
+      <mesh geometry={suzanneNode.geometry}>{props.children}</mesh>
+    </group>
+  );
+}
 
 useGLTF.preload(suzanne);

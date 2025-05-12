@@ -1,10 +1,5 @@
 import { OrbitControls, shaderMaterial } from "@react-three/drei";
-import {
-  extend,
-  ShaderMaterialProps,
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
+import { extend, ThreeElement, useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import vertexShader from "~/pages/HalftoneShading/shaders/vertex.glsl";
@@ -149,6 +144,7 @@ export default function HalftoneShadingCanvasContent() {
 // https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    halftoneShaderMaterial: HalftoneShaderMaterialProps & ShaderMaterialProps;
+    halftoneShaderMaterial: HalftoneShaderMaterialProps &
+      ThreeElement<typeof HalftoneShaderMaterial>;
   }
 }

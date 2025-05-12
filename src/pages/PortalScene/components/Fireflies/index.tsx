@@ -1,15 +1,11 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useControls } from "leva";
-import {
-  extend,
-  ShaderMaterialProps,
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
+import { extend, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { shaderMaterial } from "@react-three/drei";
 import fireflyVertexShader from "./shaders/vertex.glsl";
 import fireflyFragmentShader from "./shaders/fragment.glsl";
+import { ThreeElement } from "@react-three/fiber";
 
 export type FireflyShaderMaterialUniforms = {
   uTime: number;
@@ -84,20 +80,17 @@ export default function Fireflies() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          array={fireflyData.positions}
-          count={fireflyData.positions.length / 3}
+          args={[fireflyData.positions, 3]}
           itemSize={3}
         />
         <bufferAttribute
           attach="attributes-aScale"
-          array={fireflyData.scales}
-          count={fireflyData.scales.length}
+          args={[fireflyData.scales, 1]}
           itemSize={1}
         />
         <bufferAttribute
           attach="attributes-aOffset"
-          array={fireflyData.offsets}
-          count={fireflyData.offsets.length}
+          args={[fireflyData.offsets, 1]}
           itemSize={1}
         />
       </bufferGeometry>
@@ -120,6 +113,7 @@ export default function Fireflies() {
 // https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    fireflyShaderMaterial: FireflyShaderMaterialUniforms & ShaderMaterialProps;
+    fireflyShaderMaterial: FireflyShaderMaterialUniforms &
+      ThreeElement<typeof FireflyShaderMaterial>;
   }
 }

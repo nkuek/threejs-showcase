@@ -1,7 +1,7 @@
 import { shaderMaterial } from "@react-three/drei";
 import portalVertexShader from "./shaders/vertex.glsl";
 import portalFragmentShader from "./shaders/fragment.glsl";
-import { extend, ShaderMaterialProps, useFrame } from "@react-three/fiber";
+import { extend, ThreeElement, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useRef } from "react";
 import { useControls } from "leva";
@@ -58,6 +58,7 @@ export default function PortalShader() {
 // https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    portalShaderMaterial: PortalShaderMaterialUniforms & ShaderMaterialProps;
+    portalShaderMaterial: PortalShaderMaterialUniforms &
+      ThreeElement<typeof PortalShaderMaterial>;
   }
 }

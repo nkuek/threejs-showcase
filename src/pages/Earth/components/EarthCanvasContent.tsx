@@ -4,7 +4,7 @@ import {
   shaderMaterial,
   Stars,
 } from "@react-three/drei";
-import { extend, ShaderMaterialProps, useFrame } from "@react-three/fiber";
+import { extend, ThreeElement, useFrame } from "@react-three/fiber";
 import earthFragmentShader from "~/pages/Earth/shaders/earth/fragment.glsl";
 import earthVertexShader from "~/pages/Earth/shaders/earth/vertex.glsl";
 import atmosphereFragmentShader from "~/pages/Earth/shaders/atmosphere/fragment.glsl";
@@ -167,8 +167,8 @@ export default function EarthCanvasContent() {
 declare module "@react-three/fiber" {
   interface ThreeElements {
     customEarthShaderMaterial: CustomEarthShaderMaterialUniforms &
-      ShaderMaterialProps;
+      ThreeElement<typeof CustomEarthShaderMaterial>;
     customAtmosphereMaterial: CustomAtmosphereMaterialUniforms &
-      ShaderMaterialProps;
+      ThreeElement<typeof CustomAtmosphereMaterial>;
   }
 }
