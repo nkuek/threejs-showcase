@@ -1,4 +1,4 @@
-import Effect, { type ShadeEffectProps } from "./Effect";
+import Effect, { type ShadeEffectProps } from "./ShadeEffect";
 
 type ShadeProps = ShadeEffectProps & { ref?: React.Ref<Effect> };
 

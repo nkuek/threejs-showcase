@@ -93,7 +93,7 @@ const sitemap = {
     path: "/shade",
     exact: true,
     component: <LazyShade />,
-    theme: "light",
+    theme: "dark",
   },
   portalScene: {
     label: "Portal Scene",
