@@ -2,7 +2,6 @@ import { Image, Text, useTexture } from "@react-three/drei";
 import chair from "./assets/chair.webp?url";
 import background from "./assets/roughness.jpg?url";
 import { EffectComposer } from "@react-three/postprocessing";
-import { useRef } from "react";
 import ShadeEffect from "./postprocessing/Shade/ShadeEffect";
 import perlin from "./assets/perlin.png?url";
 import * as THREE from "three";
@@ -13,9 +12,14 @@ import Shade from "./postprocessing/Shade";
 
 useTexture.preload([perlin, background]);
 
-export default function ShadeCanvasContent() {
+type ShadeCanvasContentProps = {
+  shadeRef: React.RefObject<ShadeEffect | null>;
+};
+
+export default function ShadeCanvasContent({
+  shadeRef,
+}: ShadeCanvasContentProps) {
   const { viewport } = useThree();
-  const effectRef = useRef<ShadeEffect>(null);
   const perlinTexture = useTexture(perlin);
   const backgroundTexture = useTexture(background);
 
@@ -27,12 +31,6 @@ export default function ShadeCanvasContent() {
   backgroundTexture.generateMipmaps = false;
 
   const controls = useControls({
-    angle: {
-      value: -Math.PI / 4,
-      min: -Math.PI * 2,
-      max: Math.PI * 2,
-      step: Math.PI / 180,
-    },
     xStretch: {
       value: 2.0,
       min: 0,
@@ -46,23 +44,9 @@ export default function ShadeCanvasContent() {
       step: 0.01,
     },
     radius: {
-      value: 1.0,
+      value: 0.75,
       min: 0,
       max: 1,
-      step: 0.01,
-    },
-    center: {
-      value: { x: 0.75, y: -0.75 },
-      x: {
-        value: 0.75,
-        min: 0,
-        max: 1,
-      },
-      y: {
-        value: -0.75,
-        min: -1,
-        max: 0,
-      },
       step: 0.01,
     },
   });
@@ -71,11 +55,10 @@ export default function ShadeCanvasContent() {
     <>
       <EffectComposer>
         <Shade
-          ref={effectRef}
           texture={perlinTexture}
           backgroundTexture={backgroundTexture}
+          ref={shadeRef}
           {...controls}
-          center={[controls.center.x, -controls.center.y]}
         />
       </EffectComposer>
       <Image url={chair} scale={[viewport.width / 2, viewport.height]} />

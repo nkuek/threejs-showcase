@@ -7,10 +7,8 @@ export type ShadeEffectProps = {
   texture: THREE.Texture;
   backgroundTexture: THREE.Texture;
   radius: number;
-  angle: number;
   xStretch: number;
   yStretch: number;
-  center: [number, number];
 };
 
 export default class ShadeEffect extends Effect {
@@ -18,10 +16,8 @@ export default class ShadeEffect extends Effect {
     texture,
     backgroundTexture,
     radius,
-    angle,
     xStretch,
     yStretch,
-    center,
   }: ShadeEffectProps) {
     super("ShadeEffect", fragmentShader, {
       uniforms: new Map<
@@ -30,11 +26,11 @@ export default class ShadeEffect extends Effect {
       >([
         ["uTexture", new Uniform(texture)],
         ["uStart", new Uniform(radius)],
-        ["uAngle", new Uniform(angle)],
+        ["uAngle", new Uniform(Math.PI / 4)],
         ["uRadius", new Uniform(radius)],
         ["uXStretch", new Uniform(xStretch)],
         ["uYStretch", new Uniform(yStretch)],
-        ["uCenter", new Uniform(new THREE.Vector2(...center))],
+        ["uCenter", new Uniform(new THREE.Vector2(0.75, 0.75))],
         ["uTime", new Uniform(0)],
         ["uBackgroundTexture", new Uniform(backgroundTexture)],
       ]),
@@ -44,7 +40,7 @@ export default class ShadeEffect extends Effect {
   update(
     renderer: WebGLRenderer,
     inputBuffer: WebGLRenderTarget,
-    deltaTime: number
+    deltaTime: number,
   ) {
     this.uniforms.get("uTime")!.value += deltaTime;
     super.update(renderer, inputBuffer, deltaTime);
