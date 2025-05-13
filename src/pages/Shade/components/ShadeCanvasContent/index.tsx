@@ -30,24 +30,48 @@ export default function ShadeCanvasContent({
   backgroundTexture.wrapT = THREE.RepeatWrapping;
   backgroundTexture.generateMipmaps = false;
 
-  const controls = useControls({
+  useControls({
     xStretch: {
       value: 2.0,
       min: 0,
       max: 10,
       step: 0.01,
+      onChange: (value: number) => {
+        if (shadeRef.current) {
+          const uXStretch = shadeRef.current.uniforms.get(
+            "uXStretch",
+          ) as THREE.Uniform;
+          uXStretch.value = value;
+        }
+      },
     },
     yStretch: {
       value: 0.2,
       min: 0,
       max: 10,
       step: 0.01,
+      onChange: (value: number) => {
+        if (shadeRef.current) {
+          const uYStretch = shadeRef.current.uniforms.get(
+            "uYStretch",
+          ) as THREE.Uniform;
+          uYStretch.value = value;
+        }
+      },
     },
     radius: {
       value: 0.75,
       min: 0,
       max: 1,
       step: 0.01,
+      onChange: (value: number) => {
+        if (shadeRef.current) {
+          const uRadius = shadeRef.current.uniforms.get(
+            "uRadius",
+          ) as THREE.Uniform;
+          uRadius.value = value;
+        }
+      },
     },
   });
 
@@ -58,7 +82,6 @@ export default function ShadeCanvasContent({
           texture={perlinTexture}
           backgroundTexture={backgroundTexture}
           ref={shadeRef}
-          {...controls}
         />
       </EffectComposer>
       <Image url={chair} scale={[viewport.width / 2, viewport.height]} />

@@ -6,6 +6,7 @@ uniform float uRadius;
 uniform float uXStretch;
 uniform float uYStretch;
 uniform vec2 uCenter;
+uniform float uIntensity;
 
 #include ../../../../../../utils/shaders/simplexNoise3d.glsl
 #include ../../../../../../utils/shaders/perlinNoise2d.glsl
@@ -42,7 +43,7 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
     lightUv.x *= uXStretch;
     lightUv.y += uTime * 0.05;
 
-    float light = texture(uTexture, lightUv).r;
+    float light = texture(uTexture, lightUv).r * uIntensity;
     light = smoothstep(0.1, 1.0, light);
     light *= 1.0 - roughness;
     light = clamp(light, 0.0, 1.0);
