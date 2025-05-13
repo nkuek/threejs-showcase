@@ -9,11 +9,11 @@ import * as THREE from "three";
 import { PropsWithChildren, RefObject } from "react";
 
 type SuzanneModelProps = {
-  ref: RefObject<THREE.Group>;
+  ref: RefObject<THREE.Group | null>;
 };
 
 export default function SuzanneModel(
-  props: PropsWithChildren<SuzanneModelProps>
+  props: PropsWithChildren<SuzanneModelProps>,
 ) {
   const { nodes } = useGLTF(suzanne);
   const suzanneNode = nodes.Suzanne as THREE.Mesh;

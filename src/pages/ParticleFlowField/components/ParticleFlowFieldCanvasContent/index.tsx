@@ -27,7 +27,7 @@ const ParticleFlowFieldShaderMaterial = shaderMaterial(
     uParticleTexture: new THREE.Texture(),
   },
   vertexShader,
-  fragmentShader
+  fragmentShader,
 );
 
 extend({ ParticleFlowFieldShaderMaterial });
@@ -37,8 +37,8 @@ useGLTF.preload([modelGLB]);
 export default function ParticleFlowFieldCanvasContent() {
   const { size, gl } = useThree();
 
-  const gpgpuRendererRef = useRef<GPUComputationRenderer>();
-  const particlesVariableRef = useRef<Variable>();
+  const gpgpuRendererRef = useRef<GPUComputationRenderer>(null);
+  const particlesVariableRef = useRef<Variable>(null);
   const pointsRef = useRef<THREE.Points>(null);
   const debugRef = useRef<THREE.Mesh>(null);
 
@@ -102,12 +102,12 @@ export default function ParticleFlowFieldCanvasContent() {
     }
     pointsGeometry.setAttribute(
       "aParticlesUv",
-      new THREE.BufferAttribute(particlesUvArray, 2)
+      new THREE.BufferAttribute(particlesUvArray, 2),
     );
     pointsGeometry.setAttribute("aColor", baseGeometry.attributes.color);
     pointsGeometry.setAttribute(
       "aSize",
-      new THREE.BufferAttribute(particlesSizesArray, 1)
+      new THREE.BufferAttribute(particlesSizesArray, 1),
     );
 
     const gpgpuRenderer = new GPUComputationRenderer(size, size, gl);
@@ -128,7 +128,7 @@ export default function ParticleFlowFieldCanvasContent() {
       // the name of the variable that will be injected into the shader
       "uParticles",
       gpgpuParticleShader,
-      baseParticlesTexture
+      baseParticlesTexture,
     );
     particlesVariableRef.current = particlesVariable;
     gpgpuRenderer.setVariableDependencies(particlesVariable, [
@@ -186,7 +186,7 @@ export default function ParticleFlowFieldCanvasContent() {
     const pointsMaterial = pointsRef.current.material as THREE.ShaderMaterial;
     pointsMaterial.uniforms.uParticleTexture.value =
       gpgpuRendererRef.current.getCurrentRenderTarget(
-        particlesVariableRef.current
+        particlesVariableRef.current,
       ).texture;
 
     const gpgpuMaterial = particlesVariableRef.current
