@@ -14,16 +14,17 @@ export type SitemapRoute = {
 
 const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
-const LazyLightShading = lazy(() => import("~/pages/LightShading"));
-const LazyHalftoneShading = lazy(() => import("~/pages/HalftoneShading"));
 const LazyEarth = lazy(() => import("~/pages/Earth"));
 const LazyParticleDisplacement = lazy(
-  () => import("~/pages/ParticleDisplacement")
+  () => import("~/pages/ParticleDisplacement"),
 );
 const LazyParticleMorphing = lazy(() => import("~/pages/ParticleMorphing"));
 const LazyParticleFlowField = lazy(() => import("~/pages/ParticleFlowField"));
 const LazyShade = lazy(() => import("~/pages/Shade"));
 const LazyPortalScene = lazy(() => import("~/pages/PortalScene"));
+const LazyChromaticAberration = lazy(
+  () => import("~/pages/ChromaticAberration"),
+);
 
 export const externalLinks = {
   portfolio: {
@@ -44,20 +45,6 @@ const sitemap = {
     path: "/fireworks",
     exact: true,
     component: <LazyFireworks />,
-    theme: "dark",
-  },
-  lightShading: {
-    label: "Shader Lighting",
-    path: "/shader-lighting",
-    exact: true,
-    component: <LazyLightShading />,
-    theme: "dark",
-  },
-  halftoneShading: {
-    label: "Halftone Shading",
-    path: "/halftone-shading",
-    exact: true,
-    component: <LazyHalftoneShading />,
     theme: "dark",
   },
   earth: {
@@ -100,6 +87,13 @@ const sitemap = {
     path: "/portal",
     exact: true,
     component: <LazyPortalScene />,
+    theme: "dark",
+  },
+  chromaticAberration: {
+    label: "Chromatic Aberration",
+    path: "/chromatic-aberration",
+    exact: true,
+    component: <LazyChromaticAberration />,
     theme: "dark",
   },
 } as const;
