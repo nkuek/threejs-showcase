@@ -4,6 +4,7 @@ import { Suspense, useEffect, useRef } from "react";
 import ShadeEffect from "./components/ShadeCanvasContent/postprocessing/Shade/ShadeEffect";
 import * as THREE from "three";
 import LevaWrapper from "~/components/general/LevaWrapper";
+import NormalizedAnimationLoop from "~/components/general/NormalizedAnimationLoop";
 
 export default function ShadeScene() {
   const shadeRef = useRef<ShadeEffect>(null);
@@ -13,27 +14,51 @@ export default function ShadeScene() {
   const intensityRef = useRef(1.0);
   const interactionRef = useRef(false);
   const interactionTimeoutRef = useRef<number>(0);
+  const animationLoopRef = useRef<NormalizedAnimationLoop | null>(null);
 
   useEffect(() => {
-    let frame: number;
-    function handleLerp() {
+    // Create the animation loop
+    animationLoopRef.current = new NormalizedAnimationLoop();
+
+    // Define the update function (previously handleLerp)
+    animationLoopRef.current.onUpdate((deltaTime) => {
       if (!shadeRef.current) return;
+
       const uAngle = shadeRef.current.uniforms.get("uAngle") as THREE.Uniform;
       const uCenter = shadeRef.current.uniforms.get("uCenter") as THREE.Uniform;
       const uIntensity = shadeRef.current.uniforms.get(
         "uIntensity",
       ) as THREE.Uniform;
 
-      uAngle.value = THREE.MathUtils.lerp(uAngle.value, angleRef.current, 0.04);
-      uCenter.value = new THREE.Vector2(
-        THREE.MathUtils.lerp(uCenter.value.x, centerRef.current.x, 0.07),
-        THREE.MathUtils.lerp(uCenter.value.y, centerRef.current.y, 0.07),
+      // Apply smooth interpolation with normalized deltaTime
+      // Note: Now using fixed lerp factors multiplied by deltaTime
+      // for consistent animation speed regardless of frame rate
+      uAngle.value = THREE.MathUtils.lerp(
+        uAngle.value,
+        angleRef.current,
+        0.04 * 60 * deltaTime, // Scale by 60 to normalize to 60fps reference
       );
+
+      uCenter.value = new THREE.Vector2(
+        THREE.MathUtils.lerp(
+          uCenter.value.x,
+          centerRef.current.x,
+          0.07 * 60 * deltaTime,
+        ),
+        THREE.MathUtils.lerp(
+          uCenter.value.y,
+          centerRef.current.y,
+          0.07 * 60 * deltaTime,
+        ),
+      );
+
       uIntensity.value = THREE.MathUtils.lerp(
         uIntensity.value,
         intensityRef.current,
-        0.02,
+        0.02 * 60 * deltaTime,
       );
+
+      // Reset values if no interaction
       if (!interactionRef.current) {
         intensityRef.current = 1.0;
         angleRef.current = -Math.PI / 4;
@@ -41,14 +66,16 @@ export default function ShadeScene() {
         uAngle.value = angleRef.current;
         uCenter.value.set(0.75, 0.75);
       }
-    }
-    function animate() {
-      frame = requestAnimationFrame(animate);
-      handleLerp();
-    }
-    animate();
+    });
+
+    // Start the animation loop
+    animationLoopRef.current.start();
+
+    // Cleanup function
     return () => {
-      cancelAnimationFrame(frame);
+      if (animationLoopRef.current) {
+        animationLoopRef.current.stop();
+      }
     };
   }, []);
 
@@ -74,7 +101,8 @@ export default function ShadeScene() {
         const y = Math.abs(e.clientY / window.innerHeight - 1);
 
         const normalizedX = x * 2 - 1;
-        const angle = (Math.PI / 16) * normalizedX;
+        const ratio = window.innerWidth / window.innerHeight;
+        const angle = (Math.PI / ((16 * ratio) / 2)) * normalizedX;
 
         angleRef.current = angle;
         centerRef.current.set(x, y);
@@ -84,7 +112,7 @@ export default function ShadeScene() {
         intensityRef.current = 0.0;
         interactionTimeoutRef.current = setTimeout(() => {
           interactionRef.current = false;
-        }, 1000);
+        }, 2000);
       }}
       onPointerUp={(e) => {
         const element = e.target as HTMLCanvasElement;
