@@ -17,10 +17,8 @@ export default function ShadeScene() {
   const animationLoopRef = useRef<NormalizedAnimationLoop | null>(null);
 
   useEffect(() => {
-    // Create the animation loop
     animationLoopRef.current = new NormalizedAnimationLoop();
 
-    // Define the update function (previously handleLerp)
     animationLoopRef.current.onUpdate((deltaTime) => {
       if (!shadeRef.current) return;
 
@@ -30,9 +28,6 @@ export default function ShadeScene() {
         "uIntensity",
       ) as THREE.Uniform;
 
-      // Apply smooth interpolation with normalized deltaTime
-      // Note: Now using fixed lerp factors multiplied by deltaTime
-      // for consistent animation speed regardless of frame rate
       uAngle.value = THREE.MathUtils.lerp(
         uAngle.value,
         angleRef.current,
@@ -68,10 +63,8 @@ export default function ShadeScene() {
       }
     });
 
-    // Start the animation loop
     animationLoopRef.current.start();
 
-    // Cleanup function
     return () => {
       if (animationLoopRef.current) {
         animationLoopRef.current.stop();
@@ -81,7 +74,7 @@ export default function ShadeScene() {
 
   return (
     <div
-      className="w-full h-svh fixed touch-none"
+      className="w-full h-svh touch-none"
       ref={containerRef}
       onPointerDown={(e) => {
         const element = e.target as HTMLCanvasElement;
