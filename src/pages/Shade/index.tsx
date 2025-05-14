@@ -42,7 +42,7 @@ export default function ShadeScene() {
   }, []);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-svh">
       <Canvas
         onPointerOver={() => {
           if (!shadeRef.current) return;
