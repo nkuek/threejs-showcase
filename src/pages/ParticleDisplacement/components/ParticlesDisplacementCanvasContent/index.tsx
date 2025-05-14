@@ -25,7 +25,7 @@ const CustomParticlesMaterial = shaderMaterial(
     uDisplacementTexture: new THREE.Texture(),
   },
   vertexShader,
-  fragmentShader
+  fragmentShader,
 );
 extend({ CustomParticlesMaterial });
 
@@ -47,6 +47,7 @@ export default function ParticlesDisplacementCanvasContent({
   const planeRef = useRef<THREE.Mesh>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const chichi = useTexture(chichiImage);
+  chichi.colorSpace = THREE.SRGBColorSpace;
 
   useEffect(() => {
     const canvas = interactiveCanvasRef.current;
@@ -90,7 +91,7 @@ export default function ParticlesDisplacementCanvasContent({
       const uv = intersections[0].uv as THREE.Vector2;
       interactiveCanvasCoordinatesRef.current.set(
         uv.x * interactiveCanvasRef.current.width,
-        (1 - uv.y) * interactiveCanvasRef.current.height
+        (1 - uv.y) * interactiveCanvasRef.current.height,
       );
     }
 
@@ -103,11 +104,11 @@ export default function ParticlesDisplacementCanvasContent({
       0,
       0,
       interactiveCanvasRef.current.width,
-      interactiveCanvasRef.current.height
+      interactiveCanvasRef.current.height,
     );
 
     const distance = previousCursorCoordinatesRef.current.distanceTo(
-      cursorCoordinatesRef.current
+      cursorCoordinatesRef.current,
     );
     previousCursorCoordinatesRef.current.copy(cursorCoordinatesRef.current);
     const distanceAlpha = Math.min(distance * 100, 1);
@@ -122,10 +123,10 @@ export default function ParticlesDisplacementCanvasContent({
       interactiveCanvasCoordinatesRef.current.x - glowSize / 2,
       interactiveCanvasCoordinatesRef.current.y - glowSize / 2,
       glowSize,
-      glowSize
+      glowSize,
     );
     material.uniforms.uDisplacementTexture.value = new THREE.CanvasTexture(
-      interactiveCanvasRef.current
+      interactiveCanvasRef.current,
     );
   });
 

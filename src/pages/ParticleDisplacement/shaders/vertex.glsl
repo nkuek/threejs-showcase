@@ -26,7 +26,7 @@ void main() {
 
     gl_Position = projectedPosition;
 
-    float pictureIntensity = texture(uPictureTexture, uv).r * 2.0;
+    float pictureIntensity = texture(uPictureTexture, uv).r * 4.0;
 
     gl_PointSize = 0.15 * uResolution.y * pictureIntensity;
     gl_PointSize *= -1.0 / viewPosition.z;
