@@ -44,6 +44,10 @@ export default function ShadeScene() {
   return (
     <div className="w-full h-svh">
       <Canvas
+        onPointerDown={(e) => {
+          const element = e.target as HTMLCanvasElement;
+          element.setPointerCapture(e.pointerId);
+        }}
         onPointerOver={() => {
           if (!shadeRef.current) return;
           intensityRef.current = 1.0;
@@ -62,6 +66,10 @@ export default function ShadeScene() {
         onPointerOut={() => {
           if (!shadeRef.current) return;
           intensityRef.current = 0.0;
+        }}
+        onPointerUp={(e) => {
+          const element = e.target as HTMLCanvasElement;
+          element.releasePointerCapture(e.pointerId);
         }}
       >
         <color attach="background" args={["#DADADA"]} />
