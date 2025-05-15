@@ -7,7 +7,7 @@ export default function PortalScene() {
   return (
     <div className="h-svh bg-stone-800">
       <Leva hidden />
-      <Canvas>
+      <Canvas flat>
         <Suspense fallback={null}>
           <PortalSceneCanvasContent />
         </Suspense>
