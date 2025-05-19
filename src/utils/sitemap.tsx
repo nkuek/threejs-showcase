@@ -102,7 +102,7 @@ const sitemap = {
     path: "/corne",
     exact: true,
     component: <LazyCorne />,
-    theme: "dark",
+    theme: "light",
   },
 } as const;
 
