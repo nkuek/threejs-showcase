@@ -19,7 +19,7 @@ import {
 import corneModel from "../../assets/corne.glb?url";
 import * as THREE from "three";
 import { GLTF } from "three-stdlib";
-import { ThreeElements } from "@react-three/fiber";
+import { ThreeElements, ThreeEvent } from "@react-three/fiber";
 import leftScreen from "../../assets/corne_screen_left.png";
 import rightScreen from "../../assets/corne_screen_right.png";
 import {
@@ -156,9 +156,9 @@ function Switch({
         </>
       ) : (
         <>
-          <instances.Switch name="switch_1" />
-          <instances.Switch1 name="switch_2" />
-          <instances.Switch2 name="switch_3" />
+          <instances.Switch name="stem" />
+          <instances.Switch1 name="base" />
+          <instances.Switch2 name="cover" />
         </>
       )}
     </group>
@@ -198,6 +198,23 @@ export default function CorneModel({
     "Volume",
     "space",
   ];
+
+  function handlePointerDown(e: ThreeEvent<PointerEvent>) {
+    e.stopPropagation();
+    const target = e.target as Element;
+    target.setPointerCapture(e.pointerId);
+    const group = e.eventObject as THREE.Group;
+    group.position.y -= 0.0015;
+  }
+
+  function handlePointerUp(e: ThreeEvent<PointerEvent>) {
+    e.stopPropagation();
+    const target = e.target as Element;
+    target.releasePointerCapture(e.pointerId);
+    const group = e.eventObject as THREE.Group;
+    group.position.y += 0.0015;
+  }
+
   return (
     <group
       {...props}
@@ -280,7 +297,10 @@ export default function CorneModel({
       <group position={mirrorPosition(nodes.escape.position, flip)}>
         {flip ? (
           <>
-            <instances.MirroredModifier />
+            <instances.MirroredModifier
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
+            />
             <Switch mirrored={true} />
           </>
         ) : (
@@ -289,6 +309,8 @@ export default function CorneModel({
               name="escape"
               geometry={nodes.escape.geometry}
               material={materials.fuji_keycap}
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
             />
             <Switch mirrored={false} />
           </>
@@ -311,14 +333,26 @@ export default function CorneModel({
             >
               {key.includes("modifier") ? (
                 flip ? (
-                  <instances.MirroredModifier />
+                  <instances.MirroredModifier
+                    onPointerDown={handlePointerDown}
+                    onPointerUp={handlePointerUp}
+                  />
                 ) : (
-                  <instances.Modifier />
+                  <instances.Modifier
+                    onPointerDown={handlePointerDown}
+                    onPointerUp={handlePointerUp}
+                  />
                 )
               ) : flip ? (
-                <instances.MirroredBaseKey />
+                <instances.MirroredBaseKey
+                  onPointerDown={handlePointerDown}
+                  onPointerUp={handlePointerUp}
+                />
               ) : (
-                <instances.BaseKey />
+                <instances.BaseKey
+                  onPointerDown={handlePointerDown}
+                  onPointerUp={handlePointerUp}
+                />
               )}
               <Switch mirrored={flip} />
             </group>
@@ -341,6 +375,8 @@ export default function CorneModel({
           material={materials.base_keycap}
           scale={nodes.space.scale}
           name="space"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
         />
         <Switch mirrored={flip} />
       </group>
