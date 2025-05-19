@@ -1,12 +1,11 @@
 import { Canvas } from "@react-three/fiber";
 import CorneModel, { CorneInstances } from "./components/CorneModel";
-import { AccumulativeShadows, OrbitControls, Stage } from "@react-three/drei";
+import { OrbitControls, Stage } from "@react-three/drei";
 import { Suspense } from "react";
 
 function CorneCanvasContent() {
   return (
     <>
-      {/* <Perf /> */}
       <OrbitControls makeDefault />
       <Stage
         adjustCamera={1}
