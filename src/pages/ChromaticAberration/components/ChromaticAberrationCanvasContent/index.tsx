@@ -15,14 +15,7 @@ type ChromaticAberrationCanvasContentProps = {
 
 useTexture.preload([flowers]);
 
-type ChromaticShaderMaterialProps = {
-  uTexture: THREE.Texture;
-  uMousePosition: THREE.Vector2;
-  uPreviousMousePosition: THREE.Vector2;
-  uIntensity: number;
-};
-
-const ChromaticShaderMaterial = shaderMaterial(
+const CustomChromaticShaderMaterial = shaderMaterial(
   {
     uTexture: new THREE.Texture(),
     uMousePosition: new THREE.Vector2(0, 0),
@@ -33,7 +26,7 @@ const ChromaticShaderMaterial = shaderMaterial(
   fragmentShader,
 );
 
-extend({ ChromaticShaderMaterial });
+const ChromaticShaderMaterial = extend(CustomChromaticShaderMaterial);
 10;
 
 export default function ChromaticAberrationCanvasContent({
@@ -50,24 +43,15 @@ export default function ChromaticAberrationCanvasContent({
     <>
       <mesh ref={ref}>
         <planeGeometry args={[2, 2]} />
-        <chromaticShaderMaterial
+        <ChromaticShaderMaterial
           uTexture={flowersTexture}
           uMousePosition={new THREE.Vector2(0, 0)}
           uPreviousMousePosition={new THREE.Vector2(0, 0)}
           uIntensity={0}
-          key={ChromaticShaderMaterial.key}
+          key={CustomChromaticShaderMaterial.key}
         />
         <PerspectiveCamera position={[0, 0, 1]} fov={75} makeDefault />
       </mesh>
     </>
   );
-}
-
-// unfortunately, we have to extend the ThreeElements interface in order to use it without any type errors
-// https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    chromaticShaderMaterial: ChromaticShaderMaterialProps &
-      ThreeElement<typeof ChromaticShaderMaterial>;
-  }
 }

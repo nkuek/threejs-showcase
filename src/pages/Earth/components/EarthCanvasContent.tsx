@@ -40,16 +40,10 @@ const CustomEarthShaderMaterial = shaderMaterial(
     uAtmosphereTwilightColor: new THREE.Color("white"),
   },
   earthVertexShader,
-  earthFragmentShader
+  earthFragmentShader,
 );
 
-extend({ CustomEarthShaderMaterial });
-
-type CustomAtmosphereMaterialUniforms = {
-  uSunDirection: THREE.Vector3;
-  uAtmosphereDayColor: THREE.Color | string;
-  uAtmosphereTwilightColor: THREE.Color | string;
-};
+const EarthShaderMaterial = extend(CustomEarthShaderMaterial);
 
 const CustomAtmosphereMaterial = shaderMaterial(
   {
@@ -58,10 +52,10 @@ const CustomAtmosphereMaterial = shaderMaterial(
     uAtmosphereTwilightColor: new THREE.Color("white"),
   },
   atmosphereVertexShader,
-  atmosphereFragmentShader
+  atmosphereFragmentShader,
 );
 
-extend({ CustomAtmosphereMaterial });
+const AtmosphereMaterial = extend(CustomAtmosphereMaterial);
 
 export default function EarthCanvasContent() {
   const earthRef = useRef<THREE.Mesh | null>(null);
@@ -135,7 +129,7 @@ export default function EarthCanvasContent() {
       </mesh>
       <mesh ref={earthRef}>
         <sphereGeometry args={[2, 32, 32]} />
-        <customEarthShaderMaterial
+        <EarthShaderMaterial
           key={CustomEarthShaderMaterial.key}
           uColor="red"
           uDayTexture={earthDayTexture}
@@ -148,7 +142,7 @@ export default function EarthCanvasContent() {
       </mesh>
       <mesh ref={atmosphereRef} scale={atmosphereSize}>
         <sphereGeometry args={[2, 32, 32]} />
-        <customAtmosphereMaterial
+        <AtmosphereMaterial
           transparent
           side={THREE.BackSide}
           key={CustomAtmosphereMaterial.key}
@@ -160,15 +154,4 @@ export default function EarthCanvasContent() {
       <Stars />
     </>
   );
-}
-
-// unfortunately, we have to extend the ThreeElements interface in order to use it without any type errors
-// https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    customEarthShaderMaterial: CustomEarthShaderMaterialUniforms &
-      ThreeElement<typeof CustomEarthShaderMaterial>;
-    customAtmosphereMaterial: CustomAtmosphereMaterialUniforms &
-      ThreeElement<typeof CustomAtmosphereMaterial>;
-  }
 }

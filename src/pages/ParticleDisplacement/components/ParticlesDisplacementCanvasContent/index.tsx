@@ -6,17 +6,11 @@ import {
 } from "@react-three/drei";
 import vertexShader from "~/pages/ParticleDisplacement/shaders/vertex.glsl";
 import fragmentShader from "~/pages/ParticleDisplacement/shaders/fragment.glsl";
-import { extend, ThreeElement, useFrame, useThree } from "@react-three/fiber";
+import { extend, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import chichiImage from "~/pages/ParticleDisplacement/assets/chichi.jpg";
 import glow from "~/pages/ParticleDisplacement/assets/glow.png";
-
-type CustomParticlesMaterialUniforms = {
-  uResolution: [number, number];
-  uPictureTexture: THREE.Texture;
-  uDisplacementTexture: THREE.Texture;
-};
 
 const CustomParticlesMaterial = shaderMaterial(
   {
@@ -27,13 +21,13 @@ const CustomParticlesMaterial = shaderMaterial(
   vertexShader,
   fragmentShader,
 );
-extend({ CustomParticlesMaterial });
+const ParticlesMaterial = extend(CustomParticlesMaterial);
 
 type ParticlesDisplacementCanvasContentProps = {
-  cursorCoordinatesRef: React.MutableRefObject<THREE.Vector2>;
-  interactiveCanvasCoordinatesRef: React.MutableRefObject<THREE.Vector2>;
-  interactiveCanvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
-  previousCursorCoordinatesRef: React.MutableRefObject<THREE.Vector2>;
+  cursorCoordinatesRef: React.RefObject<THREE.Vector2>;
+  interactiveCanvasCoordinatesRef: React.RefObject<THREE.Vector2>;
+  interactiveCanvasRef: React.RefObject<HTMLCanvasElement | null>;
+  previousCursorCoordinatesRef: React.RefObject<THREE.Vector2>;
 };
 
 export default function ParticlesDisplacementCanvasContent({
@@ -155,7 +149,7 @@ export default function ParticlesDisplacementCanvasContent({
             }}
           />
         </planeGeometry>
-        <customParticlesMaterial
+        <ParticlesMaterial
           uResolution={[size.width, size.height]}
           key={CustomParticlesMaterial.key}
           uPictureTexture={chichi}
@@ -173,13 +167,4 @@ export default function ParticlesDisplacementCanvasContent({
       <PerspectiveCamera makeDefault position={[0, 0, 20]} />
     </>
   );
-}
-
-// unfortunately, we have to extend the ThreeElements interface in order to use it without any type errors
-// https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    customParticlesMaterial: CustomParticlesMaterialUniforms &
-      ThreeElement<typeof CustomParticlesMaterial>;
-  }
 }

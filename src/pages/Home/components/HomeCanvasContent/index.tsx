@@ -10,20 +10,14 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useControls } from "leva";
 
-type LavaLampShaderMaterialUniforms = {
-  uTime: number;
-  uColor?: THREE.Color | string;
-  uAmbientLightColor?: THREE.Color | string;
-};
-
-const LavaLampShaderMaterial = shaderMaterial(
+const CustomLavaLampShaderMaterial = shaderMaterial(
   {
     uTime: 0,
     uColor: new THREE.Color("white"),
     uAmbientLightColor: new THREE.Color("white"),
   },
   vertexShader,
-  fragmentShader
+  fragmentShader,
 );
 
 type BlobInstance = {
@@ -33,14 +27,14 @@ type BlobInstance = {
   aOffset: number;
 };
 
-extend({ LavaLampShaderMaterial });
+const LavaLampShaderMaterial = extend(CustomLavaLampShaderMaterial);
 
 export default function HomeCanvasContent() {
   const meshRef = useRef<THREE.InstancedMesh | null>(null);
 
   const [BlobInstances, BlobInstance] = useMemo(
     () => createInstances<BlobInstance>(),
-    []
+    [],
   );
 
   const { blobColor, uAmbientLightColor } = useControls({
@@ -75,8 +69,8 @@ export default function HomeCanvasContent() {
       <group>
         <BlobInstances limit={10} range={10} ref={meshRef}>
           <icosahedronGeometry args={[1, 128]} />
-          <lavaLampShaderMaterial
-            key={LavaLampShaderMaterial.key}
+          <LavaLampShaderMaterial
+            key={CustomLavaLampShaderMaterial.key}
             uTime={0}
             uColor={blobColor}
             uAmbientLightColor={new THREE.Color(uAmbientLightColor)}
@@ -90,13 +84,4 @@ export default function HomeCanvasContent() {
       </group>
     </>
   );
-}
-
-// unfortunately, we have to extend the ThreeElements interface in order to use it without any type errors
-// https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    lavaLampShaderMaterial: LavaLampShaderMaterialUniforms &
-      ThreeElement<typeof LavaLampShaderMaterial>;
-  }
 }

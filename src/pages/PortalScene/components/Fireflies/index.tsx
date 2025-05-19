@@ -5,14 +5,6 @@ import * as THREE from "three";
 import { shaderMaterial } from "@react-three/drei";
 import fireflyVertexShader from "./shaders/vertex.glsl";
 import fireflyFragmentShader from "./shaders/fragment.glsl";
-import { ThreeElement } from "@react-three/fiber";
-
-export type FireflyShaderMaterialUniforms = {
-  uTime: number;
-  uColor: THREE.Color | string;
-  uSize: number;
-  uPixelRatio: number;
-};
 
 export const FireflyShaderMaterial = shaderMaterial(
   {
@@ -22,10 +14,10 @@ export const FireflyShaderMaterial = shaderMaterial(
     uPixelRatio: Math.min(window.devicePixelRatio, 2),
   },
   fireflyVertexShader,
-  fireflyFragmentShader
+  fireflyFragmentShader,
 );
 
-extend({ FireflyShaderMaterial });
+const FireflyShader = extend(FireflyShaderMaterial);
 
 export default function Fireflies() {
   const fireflyRef = useRef<THREE.ShaderMaterial>(null);
@@ -66,7 +58,7 @@ export default function Fireflies() {
     if (!fireflyRef.current) return;
     fireflyRef.current.uniforms.uPixelRatio.value = Math.min(
       window.devicePixelRatio,
-      2
+      2,
     );
   }, [size]);
 
@@ -94,7 +86,7 @@ export default function Fireflies() {
           itemSize={1}
         />
       </bufferGeometry>
-      <fireflyShaderMaterial
+      <FireflyShader
         uTime={0}
         uColor={color}
         uSize={fireflySize}
@@ -107,13 +99,4 @@ export default function Fireflies() {
       />
     </points>
   );
-}
-
-// unfortunately, we have to extend the ThreeElements interface in order to use it without any type errors
-// https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    fireflyShaderMaterial: FireflyShaderMaterialUniforms &
-      ThreeElement<typeof FireflyShaderMaterial>;
-  }
 }

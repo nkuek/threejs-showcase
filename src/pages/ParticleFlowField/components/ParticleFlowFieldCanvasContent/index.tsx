@@ -7,18 +7,12 @@ import {
 import fragmentShader from "~/pages/ParticleFlowField/shaders/fragment.glsl";
 import vertexShader from "~/pages/ParticleFlowField/shaders/vertex.glsl";
 import gpgpuParticleShader from "~/pages/ParticleFlowField/shaders/gpgpu/particles.glsl";
-import { extend, ThreeElement, useFrame, useThree } from "@react-three/fiber";
+import { extend, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import modelGLB from "~/pages/ParticleFlowField/assets/model.glb?url";
 import { GPUComputationRenderer, Variable } from "three/examples/jsm/Addons.js";
 import { useControls } from "leva";
-
-type ParticleFlowFieldShaderMaterialUniforms = {
-  uResolution: [number, number];
-  uSize: number;
-  uParticleTexture?: THREE.Texture;
-};
 
 const ParticleFlowFieldShaderMaterial = shaderMaterial(
   {
@@ -30,7 +24,7 @@ const ParticleFlowFieldShaderMaterial = shaderMaterial(
   fragmentShader,
 );
 
-extend({ ParticleFlowFieldShaderMaterial });
+const ParticleFlowFieldShader = extend(ParticleFlowFieldShaderMaterial);
 
 useGLTF.preload([modelGLB]);
 
@@ -199,7 +193,7 @@ export default function ParticleFlowFieldCanvasContent() {
     <>
       <points ref={pointsRef}>
         <bufferGeometry />
-        <particleFlowFieldShaderMaterial
+        <ParticleFlowFieldShader
           uSize={0.12}
           uResolution={[window.innerWidth, window.innerHeight]}
           key={ParticleFlowFieldShaderMaterial.key}
@@ -213,13 +207,4 @@ export default function ParticleFlowFieldCanvasContent() {
       <OrbitControls />
     </>
   );
-}
-
-// unfortunately, we have to extend the ThreeElements interface in order to use it without any type errors
-// https://r3f.docs.pmnd.rs/tutorials/typescript#extending-threeelements
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    particleFlowFieldShaderMaterial: ParticleFlowFieldShaderMaterialUniforms &
-      ThreeElement<typeof ParticleFlowFieldShaderMaterial>;
-  }
 }
