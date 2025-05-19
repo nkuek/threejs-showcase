@@ -170,12 +170,12 @@ export default function Model({
           roughness={0.6}
         />
       </mesh>
-      <group name="switch" position={[-0.057, 0.015, -0.023]}>
+      <group name="switch" position={[-0.057, 0.014, -0.023]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch001" position={[-0.039, 0.015, -0.023]}>
+      <group name="switch001" position={[-0.039, 0.014, -0.023]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
@@ -189,25 +189,25 @@ export default function Model({
         position={[-0.057, 0.021, -0.023]}
       />
       <instances.BaseKey name="b" position={[-0.039, 0.021, -0.023]} />
-      <group name="switch002" position={[-0.022, 0.015, -0.023]}>
+      <group name="switch002" position={[-0.022, 0.014, -0.023]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
       <instances.BaseKey name="l" position={[-0.022, 0.021, -0.023]} />
-      <group name="switch003" position={[-0.004, 0.015, -0.023]}>
+      <group name="switch003" position={[-0.004, 0.014, -0.023]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
       <instances.BaseKey name="d" position={[-0.004, 0.021, -0.023]} />
-      <group name="switch004" position={[0.014, 0.015, -0.023]}>
+      <group name="switch004" position={[0.014, 0.014, -0.023]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
       <instances.BaseKey name="c" position={[0.014, 0.021, -0.023]} />
-      <group name="switch005" position={[0.031, 0.015, -0.023]}>
+      <group name="switch005" position={[0.031, 0.014, -0.023]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
@@ -218,27 +218,27 @@ export default function Model({
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch008" position={[-0.039, 0.015, -0.006]}>
+      <group name="switch008" position={[-0.039, 0.014, -0.006]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch009" position={[-0.022, 0.015, -0.006]}>
+      <group name="switch009" position={[-0.022, 0.014, -0.006]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch010" position={[-0.004, 0.015, -0.006]}>
+      <group name="switch010" position={[-0.004, 0.014, -0.006]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch011" position={[0.014, 0.015, -0.006]}>
+      <group name="switch011" position={[0.014, 0.014, -0.006]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch012" position={[0.031, 0.015, -0.006]}>
+      <group name="switch012" position={[0.031, 0.014, -0.006]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
@@ -249,27 +249,27 @@ export default function Model({
       <instances.BaseKey name="t" position={[-0.004, 0.021, -0.006]} />
       <instances.BaseKey name="s" position={[0.014, 0.021, -0.006]} />
       <instances.BaseKey name="g" position={[0.031, 0.021, -0.006]} />
-      <group name="switch013" position={[-0.039, 0.015, 0.012]}>
+      <group name="switch013" position={[-0.039, 0.014, 0.012]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch014" position={[-0.022, 0.015, 0.012]}>
+      <group name="switch014" position={[-0.022, 0.014, 0.012]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch015" position={[-0.004, 0.015, 0.012]}>
+      <group name="switch014" position={[-0.004, 0.014, 0.012]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch016" position={[0.014, 0.015, 0.012]}>
+      <group name="switch016" position={[0.014, 0.014, 0.012]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch017" position={[0.031, 0.015, 0.012]}>
+      <group name="switch017" position={[0.031, 0.014, 0.012]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
@@ -290,7 +290,7 @@ export default function Model({
       <instances.BaseKey name="z" position={[0.031, 0.021, 0.012]} />
       <group
         name="switch020"
-        position={[0.049, 0.015, 0.034]}
+        position={[0.049, 0.014, 0.034]}
         rotation={[0, -0.638, 0]}
       >
         <instances.Switch name="switch_1" />
@@ -299,14 +299,14 @@ export default function Model({
       </group>
       <group
         name="switch018"
-        position={[0.028, 0.015, 0.031]}
+        position={[0.028, 0.014, 0.031]}
         rotation={[0, -0.202, 0]}
       >
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
       </group>
-      <group name="switch019" position={[0.009, 0.015, 0.029]}>
+      <group name="switch019" position={[0.009, 0.014, 0.029]}>
         <instances.Switch name="switch_1" />
         <instances.Switch1 name="switch_2" />
         <instances.Switch2 name="switch_3" />
