@@ -25,6 +25,7 @@ const LazyPortalScene = lazy(() => import("~/pages/PortalScene"));
 const LazyChromaticAberration = lazy(
   () => import("~/pages/ChromaticAberration"),
 );
+const LazyCorne = lazy(() => import("~/pages/Corne"));
 
 export const externalLinks = {
   portfolio: {
@@ -94,6 +95,13 @@ const sitemap = {
     path: "/chromatic-aberration",
     exact: true,
     component: <LazyChromaticAberration />,
+    theme: "dark",
+  },
+  corne: {
+    label: "Corne",
+    path: "/corne",
+    exact: true,
+    component: <LazyCorne />,
     theme: "dark",
   },
 } as const;
