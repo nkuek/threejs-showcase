@@ -118,6 +118,7 @@ export default function Model({
 
   const rotation = (Math.PI / 16) * (flip ? -1 : 1);
   const position = 1.65 * (flip ? 1 : -1);
+  const texture = flip ? rightScreenTexture : leftScreenTexture;
   return (
     <group
       {...props}
@@ -133,9 +134,7 @@ export default function Model({
           receiveShadow
           geometry={nodes.display.geometry}
         >
-          <meshStandardMaterial
-            map={flip ? rightScreenTexture : leftScreenTexture}
-          />
+          <meshStandardMaterial map={texture} />
         </mesh>
         <mesh
           name="display_1"
@@ -143,9 +142,7 @@ export default function Model({
           receiveShadow
           geometry={nodes.display_1.geometry}
         >
-          <meshStandardMaterial
-            map={flip ? leftScreenTexture : rightScreenTexture}
-          />
+          <meshStandardMaterial map={texture} />
         </mesh>
       </group>
       <mesh
