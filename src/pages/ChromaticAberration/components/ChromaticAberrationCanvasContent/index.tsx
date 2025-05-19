@@ -5,7 +5,7 @@ import {
   useTexture,
 } from "@react-three/drei";
 import * as THREE from "three";
-import { extend, ThreeElement } from "@react-three/fiber";
+import { extend } from "@react-three/fiber";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 

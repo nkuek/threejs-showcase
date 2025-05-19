@@ -1,4 +1,4 @@
-import { extend, ThreeElement, useFrame } from "@react-three/fiber";
+import { extend, useFrame } from "@react-three/fiber";
 import vertexShader from "../../shaders/vertex.glsl";
 import fragmentShader from "../../shaders/fragment.glsl";
 import {

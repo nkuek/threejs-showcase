@@ -4,7 +4,7 @@ import {
   shaderMaterial,
   Stars,
 } from "@react-three/drei";
-import { extend, ThreeElement, useFrame } from "@react-three/fiber";
+import { extend, useFrame } from "@react-three/fiber";
 import earthFragmentShader from "~/pages/Earth/shaders/earth/fragment.glsl";
 import earthVertexShader from "~/pages/Earth/shaders/earth/vertex.glsl";
 import atmosphereFragmentShader from "~/pages/Earth/shaders/atmosphere/fragment.glsl";
@@ -18,16 +18,6 @@ import { useTexture } from "@react-three/drei";
 import { useControls } from "leva";
 
 useTexture.preload([earthDay, earthNight, earthSpecular]);
-
-type CustomEarthShaderMaterialUniforms = {
-  uColor: THREE.Color | string;
-  uDayTexture: THREE.Texture;
-  uNightTexture: THREE.Texture;
-  uSpecularTexture: THREE.Texture;
-  uSunDirection: THREE.Vector3;
-  uAtmosphereDayColor: THREE.Color | string;
-  uAtmosphereTwilightColor: THREE.Color | string;
-};
 
 const CustomEarthShaderMaterial = shaderMaterial(
   {
