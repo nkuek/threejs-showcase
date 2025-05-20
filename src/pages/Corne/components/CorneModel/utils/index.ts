@@ -53,3 +53,60 @@ export const mirrorRotation = (rotation: THREE.Euler, shouldMirror = false) => {
 
   return rot;
 };
+
+export const MirroredKeys = {
+  b: "'",
+  l: "u",
+  d: "o",
+  c: "y",
+  v: "j",
+  n: "i",
+  r: "e",
+  t: "a",
+  s: "h",
+  g: "p",
+  x: "/",
+  q: ".",
+  m: ",",
+  w: "f",
+  z: "k",
+  enter: "space",
+  escape: "backspace",
+};
+
+export const QwertyToGallium = {
+  q: "b",
+  w: "l",
+  e: "d",
+  r: "c",
+  t: "v",
+  y: "j",
+  i: "y",
+  o: "o",
+  u: "u",
+  p: "'",
+  a: "n",
+  s: "r",
+  d: "t",
+  f: "s",
+  g: "g",
+  h: "p",
+  j: "h",
+  k: "a",
+  l: "e",
+  ";": "i",
+  z: "x",
+  x: "q",
+  c: "m",
+  v: "w",
+  b: "z",
+  n: "k",
+  m: "f",
+  ",": ",",
+  ".": ".",
+  "/": "/",
+  enter: "space",
+};
+export const Dictionaries = {
+  Qwerty: QwertyToGallium,
+};
