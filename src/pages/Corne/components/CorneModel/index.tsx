@@ -60,7 +60,7 @@ export function CorneInstances({
   );
 }
 
-function Switch({ ...props }: InstanceProps & { mirrored?: boolean }) {
+function Switch({ ...props }: InstanceProps) {
   const instances = use(context);
   if (!instances) {
     throw new Error("CorneInstances not found");
@@ -195,6 +195,7 @@ export default function CorneModel({
           castShadow
           receiveShadow
           geometry={nodes.display.geometry}
+          material={materials.pcb}
           material-map={texture}
         />
         <mesh
@@ -203,6 +204,8 @@ export default function CorneModel({
           receiveShadow
           geometry={nodes.display_1.geometry}
           material-map={texture}
+          material={materials.pcb}
+          material-color="#232b23"
         />
       </group>
       <mesh
@@ -256,27 +259,22 @@ export default function CorneModel({
       </mesh>
       <group position={mirrorPosition(nodes.escape.position, flip)}>
         {flip ? (
-          <>
-            <instances.Modifier
-              onPointerDown={handlePointerDown}
-              onPointerUp={handlePointerUp}
-              name="backspace"
-              rotation={mirrorRotation(nodes.escape.rotation, flip)}
-            />
-            <Switch mirrored={true} />
-          </>
+          <instances.Modifier
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            name="backspace"
+            rotation={mirrorRotation(nodes.escape.rotation, flip)}
+          />
         ) : (
-          <>
-            <mesh
-              name="escape"
-              geometry={nodes.escape.geometry}
-              material={materials.fuji_keycap}
-              onPointerDown={handlePointerDown}
-              onPointerUp={handlePointerUp}
-            />
-            <Switch mirrored={false} />
-          </>
+          <mesh
+            name="escape"
+            geometry={nodes.escape.geometry}
+            material={materials.fuji_keycap}
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+          />
         )}
+        <Switch />
       </group>
 
       {/* All other keys */}
@@ -309,7 +307,7 @@ export default function CorneModel({
                   }
                 />
               )}
-              <Switch mirrored={flip} />
+              <Switch />
             </group>
           );
         })}
@@ -331,7 +329,7 @@ export default function CorneModel({
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
         />
-        <Switch mirrored={flip} />
+        <Switch />
       </group>
     </group>
   );
