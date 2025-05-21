@@ -1,7 +1,7 @@
 import AppContextProvider from "~/components/general/AppProvider";
 import { BrowserRouter } from "react-router";
 import Router from "~/components/general/Router";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
