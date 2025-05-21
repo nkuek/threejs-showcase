@@ -29,11 +29,11 @@ export default function ChromaticAberration() {
       mousePositionRef.current.x +=
         (targetMousePositionRef.current.x - mousePositionRef.current.x) *
         deltaTime *
-        2;
+        4;
       mousePositionRef.current.y +=
         (targetMousePositionRef.current.y - mousePositionRef.current.y) *
         deltaTime *
-        2;
+        4;
 
       uMousePosition.value = new THREE.Vector2(
         mousePositionRef.current.x,
