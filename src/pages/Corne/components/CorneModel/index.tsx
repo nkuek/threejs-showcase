@@ -195,7 +195,6 @@ export default function CorneModel({
           castShadow
           receiveShadow
           geometry={nodes.display.geometry}
-          material={materials.pcb}
           material-map={texture}
         />
         <mesh
