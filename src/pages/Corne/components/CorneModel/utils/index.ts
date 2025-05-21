@@ -107,6 +107,13 @@ export const QwertyToGallium = {
   "/": "/",
   enter: "space",
 };
-export const Dictionaries = {
+
+export const ToGallium = {
   Qwerty: QwertyToGallium,
+};
+
+export const FromGallium = {
+  Qwerty: Object.fromEntries(
+    Object.entries(QwertyToGallium).map(([key, value]) => [value, key]),
+  ),
 };

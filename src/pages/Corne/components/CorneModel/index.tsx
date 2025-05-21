@@ -16,6 +16,7 @@ import {
   MergedProps,
   InstanceProps,
   useTexture,
+  Text,
 } from "@react-three/drei";
 import corneModel from "../../assets/corne.glb?url";
 import * as THREE from "three";
@@ -24,7 +25,8 @@ import leftScreen from "../../assets/corne_screen_left.png";
 import rightScreen from "../../assets/corne_screen_right.png";
 import {
   createMirroredGeometry,
-  Dictionaries,
+  ToGallium,
+  FromGallium,
   MirroredKeys,
   mirrorPosition,
   mirrorRotation,
@@ -153,7 +155,7 @@ export default function CorneModel({
       if (!groupRef.current) return;
       let key = e.key.toLowerCase();
       if (layout !== "Gallium") {
-        const dictionary = Dictionaries[layout as keyof typeof Dictionaries];
+        const dictionary = ToGallium[layout as keyof typeof ToGallium];
         key = dictionary[key as keyof typeof dictionary];
       }
       if (e.key === " ") {
@@ -280,6 +282,13 @@ export default function CorneModel({
       {Object.entries(nodes)
         .filter(([key]) => !filterKeys.includes(key) && !key.includes("switch"))
         .map(([key, node]) => {
+          let keyName = flip
+            ? MirroredKeys[key as keyof typeof MirroredKeys]
+            : key;
+          if (layout !== "Gallium") {
+            const dictionary = FromGallium[layout as keyof typeof FromGallium];
+            keyName = dictionary[keyName as keyof typeof dictionary];
+          }
           return (
             <group
               position={mirrorPosition(node.position, flip)}
@@ -289,23 +298,31 @@ export default function CorneModel({
               receiveShadow
               castShadow
             >
-              {key.includes("modifier") ? (
-                <instances.Modifier
-                  onPointerDown={handlePointerDown}
-                  onPointerUp={handlePointerUp}
-                  name={
-                    flip ? MirroredKeys[key as keyof typeof MirroredKeys] : key
-                  }
-                />
-              ) : (
-                <instances.BaseKey
-                  onPointerDown={handlePointerDown}
-                  onPointerUp={handlePointerUp}
-                  name={
-                    flip ? MirroredKeys[key as keyof typeof MirroredKeys] : key
-                  }
-                />
-              )}
+              <group>
+                {key.includes("modifier") ? (
+                  <instances.Modifier
+                    onPointerDown={handlePointerDown}
+                    onPointerUp={handlePointerUp}
+                    name={keyName}
+                  />
+                ) : (
+                  <instances.BaseKey
+                    onPointerDown={handlePointerDown}
+                    onPointerUp={handlePointerUp}
+                    name={keyName}
+                  >
+                    <Text
+                      scale={0.005}
+                      rotation-x={-Math.PI / 2}
+                      position-y={0.003}
+                      depthOffset={0.02}
+                      color="black"
+                    >
+                      {keyName.toUpperCase()}
+                    </Text>
+                  </instances.BaseKey>
+                )}
+              </group>
               <Switch />
             </group>
           );
