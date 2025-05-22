@@ -6,7 +6,7 @@ import { Suspense } from "react";
 function CorneCanvasContent() {
   return (
     <>
-      <OrbitControls makeDefault />
+      <OrbitControls makeDefault maxDistance={1} />
       <Stage
         adjustCamera={1}
         environment="city"
@@ -25,7 +25,7 @@ function CorneCanvasContent() {
 export default function Corne() {
   return (
     <div className="w-full h-svh bg-slate-100">
-      <Canvas shadows camera={{ position: [0, 5, 7], fov: 35 }}>
+      <Canvas shadows camera={{ position: [0, 5, 7], fov: 50 }}>
         <Suspense fallback={null}>
           <CorneCanvasContent />
         </Suspense>

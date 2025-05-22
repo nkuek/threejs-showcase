@@ -315,8 +315,9 @@ export default function CorneModel({
                       scale={0.005}
                       rotation-x={-Math.PI / 2}
                       position-y={0.003}
-                      depthOffset={0.02}
+                      depthOffset={0.01}
                       color="black"
+                      renderOrder={5}
                     >
                       {keyName.toUpperCase()}
                     </Text>
