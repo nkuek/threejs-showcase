@@ -136,7 +136,7 @@ export default function CorneModel({
     const group = e.eventObject as THREE.Group;
     const name = group.name;
     pressedEls.current.set(name, { pressed: true, el: group });
-    if (!inputRef.current) {
+    if (!inputRef.current || name.includes("modifier")) {
       return;
     }
     if (name === "backspace") {
