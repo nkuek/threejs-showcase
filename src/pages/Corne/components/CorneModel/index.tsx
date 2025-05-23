@@ -38,8 +38,13 @@ const context = createContext<CorneContext | null>(null);
 
 export function CorneInstances({
   children,
+  inputRef,
+  setText,
   ...props
-}: PropsWithChildren<Omit<MergedProps, "children" | "meshes">>) {
+}: PropsWithChildren<Omit<MergedProps, "children" | "meshes">> & {
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const { nodes } = useGLTF(corneModel) as unknown as GLTFResult;
   const instances = useMemo(() => {
     return {
@@ -54,7 +59,9 @@ export function CorneInstances({
   return (
     <Merged {...props} meshes={instances}>
       {(instances) => (
-        <context.Provider value={instances as unknown as CorneContext}>
+        <context.Provider
+          value={{ inputRef, setText, ...instances } as unknown as CorneContext}
+        >
           {children}
         </context.Provider>
       )}
@@ -80,7 +87,7 @@ export default function CorneModel({
   flip,
   ...props
 }: ThreeElements["group"] & { flip?: boolean }) {
-  const instances = use(context);
+  const contextValues = use(context);
   const { nodes, materials } = useGLTF(corneModel) as unknown as GLTFResult;
 
   const leftScreenTexture = useTexture(leftScreen);
@@ -101,9 +108,11 @@ export default function CorneModel({
     },
   });
 
-  if (!instances) {
+  if (!contextValues) {
     throw new Error("CorneInstances not found");
   }
+
+  const { inputRef, setText, ...instances } = contextValues;
 
   const rotation = (Math.PI / 16) * (flip ? -1 : 1);
   const position = 1.65 * (flip ? 1 : -1);
@@ -127,6 +136,16 @@ export default function CorneModel({
     const group = e.eventObject as THREE.Group;
     const name = group.name;
     pressedEls.current.set(name, { pressed: true, el: group });
+    if (!inputRef.current) {
+      return;
+    }
+    if (name === "backspace") {
+      inputRef.current.value = inputRef.current.value.slice(0, -1);
+      setText(inputRef.current.value);
+      return;
+    }
+    inputRef.current.value += name === "space" ? " " : name;
+    setText(inputRef.current.value);
   }
 
   function handlePointerUp(e: ThreeEvent<PointerEvent>) {

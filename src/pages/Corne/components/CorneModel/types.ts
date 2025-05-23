@@ -1,6 +1,7 @@
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
 import { InstanceProps } from "@react-three/drei";
+import { ThreeElements } from "@react-three/fiber";
 
 export type GLTFResult = GLTF & {
   nodes: {
@@ -52,4 +53,7 @@ export type CorneContext = {
   Switch2: React.FC<InstanceProps>;
   BaseKey: React.FC<InstanceProps>;
   Modifier: React.FC<InstanceProps>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+  textRef: React.RefObject<ThreeElements["mesh"]>;
 };
