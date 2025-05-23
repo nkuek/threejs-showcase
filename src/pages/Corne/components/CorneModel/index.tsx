@@ -25,7 +25,6 @@ import leftScreen from "../../assets/corne_screen_left.png";
 import rightScreen from "../../assets/corne_screen_right.png";
 import {
   createMirroredGeometry,
-  ToGallium,
   FromGallium,
   MirroredKeys,
   mirrorPosition,
