@@ -162,8 +162,12 @@ export default function CorneModel({
     pressedEls.current.forEach(({ el, pressed }) => {
       if (pressed) {
         el.position.y = Math.max(el.position.y - delta * 0.05, -0.0015);
-      } else {
+      } else if (!pressed) {
         el.position.y = Math.min(el.position.y + delta * 0.1, 0);
+        // need to delete the pressed element from the map when it is released since the key names change, but the mesh remains the same.
+        if (el.position.y === 0) {
+          pressedEls.current.delete(el.name);
+        }
       }
     });
   });
@@ -173,10 +177,6 @@ export default function CorneModel({
     function handleKey(e: KeyboardEvent, pressed = true) {
       if (!groupRef.current) return;
       let key = e.key.toLowerCase();
-      if (layout !== "Gallium") {
-        const dictionary = ToGallium[layout as keyof typeof ToGallium];
-        key = dictionary[key as keyof typeof dictionary];
-      }
       if (e.key === " ") {
         key = "space";
       }
