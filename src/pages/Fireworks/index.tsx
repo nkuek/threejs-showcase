@@ -42,7 +42,7 @@ function createFireworks({
     spherical.set(
       radius * (0.75 + Math.random() * 0.25),
       Math.random() * Math.PI,
-      Math.random() * 2 * Math.PI,
+      Math.random() * 2 * Math.PI
     );
 
     // convert spherical to cartesian coordinates
@@ -60,21 +60,21 @@ function createFireworks({
   const fireworksGeometry = new THREE.BufferGeometry();
   fireworksGeometry.setAttribute(
     "position",
-    new THREE.BufferAttribute(positions, 3),
+    new THREE.BufferAttribute(positions, 3)
   );
   fireworksGeometry.setAttribute(
     "aColor",
-    new THREE.BufferAttribute(colors, 3),
+    new THREE.BufferAttribute(colors, 3)
   );
   fireworksGeometry.setAttribute(
     "aScale",
-    new THREE.BufferAttribute(scales, 1),
+    new THREE.BufferAttribute(scales, 1)
   );
   fireworksGeometry.setAttribute(
     "aLifespan",
-    new THREE.BufferAttribute(lifespan, 1),
+    new THREE.BufferAttribute(lifespan, 1)
   );
-  texture.flipY = false;
+
   const fireworksMaterial = new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -118,6 +118,9 @@ function FireworkGenerator({ counter }: { counter: number }) {
     texture7,
     texture8,
   ]);
+  fireworkTextures.forEach((texture) => {
+    texture.flipY = false;
+  });
   const fireworks = useRef<Set<THREE.Points>>(new Set());
 
   useEffect(() => {
@@ -129,12 +132,12 @@ function FireworkGenerator({ counter }: { counter: number }) {
         position: new THREE.Vector3(
           (Math.random() - 0.5) * 2,
           Math.random(),
-          (Math.random() - 0.5) * 2,
+          (Math.random() - 0.5) * 2
         ),
         texture:
           fireworkTextures[Math.floor(Math.random() * fireworkTextures.length)],
         radius: Math.random() * 2 + 1,
-      }),
+      })
     );
   }, [scene, fireworkTextures, counter]);
 
@@ -149,7 +152,7 @@ function FireworkGenerator({ counter }: { counter: number }) {
       if (currentProgress < 1) {
         material.uniforms.uProgress.value = Math.min(
           currentProgress + delta / 3,
-          1,
+          1
         );
       }
 
