@@ -28,7 +28,7 @@ export function createMirroredGeometry(originalGeometry: THREE.BufferGeometry) {
 // Helper to mirror a position if needed
 export const mirrorPosition = (
   position: THREE.Vector3,
-  shouldMirror = false,
+  shouldMirror = false
 ) => {
   if (!shouldMirror) return position;
 
@@ -81,9 +81,9 @@ export const QwertyToGallium = {
   r: "c",
   t: "v",
   y: "j",
-  i: "y",
-  o: "o",
-  u: "u",
+  u: "y",
+  i: "o",
+  o: "u",
   p: "'",
   a: "n",
   s: "r",
@@ -114,6 +114,6 @@ export const ToGallium = {
 
 export const FromGallium = {
   Qwerty: Object.fromEntries(
-    Object.entries(QwertyToGallium).map(([key, value]) => [value, key]),
+    Object.entries(QwertyToGallium).map(([key, value]) => [value, key])
   ),
 };
