@@ -77,7 +77,6 @@ export default function ParticleMorphingAdvancedCanvasContent() {
           }
         },
         onUpdate: function () {
-          console.log(this.progress());
           if (!planeRef.current) return;
           const material = planeRef.current.material as THREE.ShaderMaterial;
           const uniformProgress = material.uniforms
