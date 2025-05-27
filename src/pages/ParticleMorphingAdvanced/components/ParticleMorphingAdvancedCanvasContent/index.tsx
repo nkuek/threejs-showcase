@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
@@ -35,20 +35,29 @@ const particleMorphingShaderMaterial = shaderMaterial(
 
 const ParticleMorphingShaderMaterial = extend(particleMorphingShaderMaterial);
 
+// on iOS, video textures will just show a black screen if they are not played at least once
+// this function plays the video and then pauses it immediately to send the pixel data to the texture
+async function warmup(video: HTMLVideoElement) {
+  await video.play();
+  setTimeout(() => {
+    video.pause();
+    video.currentTime = 0;
+  }, 0);
+}
+
 export default function ParticleMorphingAdvancedCanvasContent() {
   const vt1 = useVideoTexture(v1, {
     muted: true,
     loop: false,
+    playsInline: true,
   });
-  vt1.colorSpace = THREE.SRGBColorSpace;
-  vt1.needsUpdate = true;
   const vt2 = useVideoTexture(v2, {
+    start: false,
     muted: true,
     loop: false,
-    start: false,
+    playsInline: true,
   });
-  vt2.colorSpace = THREE.SRGBColorSpace;
-  vt2.needsUpdate = true;
+
   const videos = [v1, v2, v3];
 
   const planeRef = useRef<THREE.Mesh>(null);
@@ -56,6 +65,10 @@ export default function ParticleMorphingAdvancedCanvasContent() {
   const groupRef = useRef<THREE.Group>(null);
   const thirdVideoIndex = useRef(1);
   const currentPlayingVideo = useRef<"1" | "2">("1");
+
+  useEffect(() => {
+    warmup(vt2.image as HTMLVideoElement);
+  }, [vt2]);
 
   useGSAP(
     (_, contextSafe) => {
@@ -68,10 +81,12 @@ export default function ParticleMorphingAdvancedCanvasContent() {
             (thirdVideoIndex.current + 1) % videos.length;
           if (currentPlayingVideo.current === "1") {
             vt1.image.src = videos[thirdVideoIndex.current];
+            warmup(vt1.image);
             vt2.image.play();
             currentPlayingVideo.current = "2";
           } else {
             vt2.image.src = videos[thirdVideoIndex.current];
+            warmup(vt2.image);
             vt1.image.play();
             currentPlayingVideo.current = "1";
           }
