@@ -58,8 +58,8 @@ export default function ParticleMorphingAdvancedCanvasContent() {
   const currentPlayingVideo = useRef<"1" | "2">("1");
 
   useGSAP(
-    () => {
-      if (!bloomRef.current || !planeRef.current) return;
+    (_, contextSafe) => {
+      if (!bloomRef.current || !planeRef.current || !contextSafe) return;
       const material = planeRef.current.material as THREE.ShaderMaterial;
       const tl = gsap.timeline({
         paused: true,
@@ -77,6 +77,7 @@ export default function ParticleMorphingAdvancedCanvasContent() {
           }
         },
         onUpdate: function () {
+          console.log(this.progress());
           if (!planeRef.current) return;
           const material = planeRef.current.material as THREE.ShaderMaterial;
           const uniformProgress = material.uniforms
@@ -87,10 +88,6 @@ export default function ParticleMorphingAdvancedCanvasContent() {
               ? this.progress()
               : 1 - this.progress();
         },
-        // onStart: () => {
-        //   if (!videoTextureRef2.current) return;
-        //   videoTextureRef2.current.source.data.pause();
-        // },
       });
       tl.to(material.uniforms.uDistortion, {
         value: 2.0,
@@ -120,11 +117,18 @@ export default function ParticleMorphingAdvancedCanvasContent() {
           },
           "<"
         );
-      vt1.image.onended = () => {
+
+      const restartTimeline = contextSafe(() => {
         tl.restart();
-      };
-      vt2.image.onended = () => {
-        tl.restart();
+      });
+      const video1 = vt1.image as HTMLVideoElement;
+      video1.addEventListener("ended", restartTimeline);
+      const video2 = vt2.image as HTMLVideoElement;
+      video2.addEventListener("ended", restartTimeline);
+
+      return () => {
+        video1.removeEventListener("ended", restartTimeline);
+        video2.removeEventListener("ended", restartTimeline);
       };
     },
     { scope: groupRef }
