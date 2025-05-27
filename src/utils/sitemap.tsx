@@ -16,16 +16,19 @@ const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
 const LazyEarth = lazy(() => import("~/pages/Earth"));
 const LazyParticleDisplacement = lazy(
-  () => import("~/pages/ParticleDisplacement"),
+  () => import("~/pages/ParticleDisplacement")
 );
-const LazyParticleMorphing = lazy(() => import("~/pages/ParticleMorphing"));
+// const LazyParticleMorphing = lazy(() => import("~/pages/ParticleMorphing"));
 const LazyParticleFlowField = lazy(() => import("~/pages/ParticleFlowField"));
 const LazyShade = lazy(() => import("~/pages/Shade"));
 const LazyPortalScene = lazy(() => import("~/pages/PortalScene"));
 const LazyChromaticAberration = lazy(
-  () => import("~/pages/ChromaticAberration"),
+  () => import("~/pages/ChromaticAberration")
 );
 const LazyCorne = lazy(() => import("~/pages/Corne"));
+const LazyParticleMorphingAdvanced = lazy(
+  () => import("~/pages/ParticleMorphingAdvanced")
+);
 
 export const externalLinks = {
   portfolio: {
@@ -66,7 +69,7 @@ const sitemap = {
     label: "Particle Morphing",
     path: "/particle-morphing",
     exact: true,
-    component: <LazyParticleMorphing />,
+    component: <LazyParticleMorphingAdvanced />,
     theme: "dark",
   },
   particleFlowField: {
