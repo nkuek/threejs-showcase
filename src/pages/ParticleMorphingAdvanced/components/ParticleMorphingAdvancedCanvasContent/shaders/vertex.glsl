@@ -77,9 +77,9 @@ vec3 curlNoise(vec3 p) {
 }
 
 void main() {
-    vec3 distortion = vec3(position.x * 2., position.y, 1.) * curlNoise(vec3(
-                    sin(position.x * 0.02 + uTime * 2.) * 0.1,
-                    cos(position.y * 0.01 + uTime) * 0.1,
+    vec3 distortion = vec3(position.x * 1.5, position.y, 1.) * curlNoise(vec3(
+                    sin(position.x * 0.04 + uTime * 10.) * 0.1,
+                    cos(position.y * 0.01 + uTime * 2.) * 0.1,
                     (position.x + position.y) * 0.01
                 )) * uDistortion;
     vec3 finalPosition = position + distortion;

@@ -70,83 +70,79 @@ export default function ParticleMorphingAdvancedCanvasContent() {
     warmup(vt2.image as HTMLVideoElement);
   }, [vt2]);
 
-  useGSAP(
-    (_, contextSafe) => {
-      if (!bloomRef.current || !planeRef.current || !contextSafe) return;
-      const material = planeRef.current.material as THREE.ShaderMaterial;
-      const tl = gsap.timeline({
-        paused: true,
-        onComplete: () => {
-          thirdVideoIndex.current =
-            (thirdVideoIndex.current + 1) % videos.length;
-          if (currentPlayingVideo.current === "1") {
-            vt1.image.src = videos[thirdVideoIndex.current];
-            warmup(vt1.image);
-            vt2.image.play();
-            currentPlayingVideo.current = "2";
-          } else {
-            vt2.image.src = videos[thirdVideoIndex.current];
-            warmup(vt2.image);
-            vt1.image.play();
-            currentPlayingVideo.current = "1";
-          }
+  useGSAP((_, contextSafe) => {
+    if (!bloomRef.current || !planeRef.current || !contextSafe) return;
+    const material = planeRef.current.material as THREE.ShaderMaterial;
+    const tl = gsap.timeline({
+      paused: true,
+      onComplete: () => {
+        thirdVideoIndex.current = (thirdVideoIndex.current + 1) % videos.length;
+        if (currentPlayingVideo.current === "1") {
+          vt1.image.src = videos[thirdVideoIndex.current];
+          warmup(vt1.image);
+          vt2.image.play();
+          currentPlayingVideo.current = "2";
+        } else {
+          vt2.image.src = videos[thirdVideoIndex.current];
+          warmup(vt2.image);
+          vt1.image.play();
+          currentPlayingVideo.current = "1";
+        }
+      },
+      onUpdate: function () {
+        if (!planeRef.current) return;
+        const material = planeRef.current.material as THREE.ShaderMaterial;
+        const uniformProgress = material.uniforms
+          .uProgress as THREE.IUniform<number>;
+        // oscillate between 0 and 1 and back to 0
+        uniformProgress.value =
+          currentPlayingVideo.current === "1"
+            ? this.progress()
+            : 1 - this.progress();
+      },
+    });
+    tl.to(material.uniforms.uDistortion, {
+      value: 2.0,
+      duration: 2,
+      ease: "power2.inOut",
+    })
+      .to(
+        bloomRef.current,
+        {
+          intensity: 40,
+          duration: 2,
+          ease: "power2.in",
         },
-        onUpdate: function () {
-          if (!planeRef.current) return;
-          const material = planeRef.current.material as THREE.ShaderMaterial;
-          const uniformProgress = material.uniforms
-            .uProgress as THREE.IUniform<number>;
-          // oscillate between 0 and 1 and back to 0
-          uniformProgress.value =
-            currentPlayingVideo.current === "1"
-              ? this.progress()
-              : 1 - this.progress();
-        },
-      });
-      tl.to(material.uniforms.uDistortion, {
-        value: 2.0,
+        "<"
+      )
+      .to(material.uniforms.uDistortion, {
+        value: 0,
         duration: 2,
         ease: "power2.inOut",
       })
-        .to(
-          bloomRef.current,
-          {
-            intensity: 50,
-            duration: 2,
-            ease: "power2.in",
-          },
-          "<"
-        )
-        .to(material.uniforms.uDistortion, {
-          value: 0,
+      .to(
+        bloomRef.current,
+        {
+          intensity: 0,
           duration: 2,
-          ease: "power2.inOut",
-        })
-        .to(
-          bloomRef.current,
-          {
-            intensity: 0,
-            duration: 2,
-            ease: "power2.out",
-          },
-          "<"
-        );
+          ease: "power2.out",
+        },
+        "<"
+      );
 
-      const restartTimeline = contextSafe(() => {
-        tl.restart();
-      });
-      const video1 = vt1.image as HTMLVideoElement;
-      video1.addEventListener("ended", restartTimeline);
-      const video2 = vt2.image as HTMLVideoElement;
-      video2.addEventListener("ended", restartTimeline);
+    const restartTimeline = contextSafe(() => {
+      tl.restart();
+    });
+    const video1 = vt1.image as HTMLVideoElement;
+    video1.addEventListener("ended", restartTimeline);
+    const video2 = vt2.image as HTMLVideoElement;
+    video2.addEventListener("ended", restartTimeline);
 
-      return () => {
-        video1.removeEventListener("ended", restartTimeline);
-        video2.removeEventListener("ended", restartTimeline);
-      };
-    },
-    { scope: groupRef }
-  );
+    return () => {
+      video1.removeEventListener("ended", restartTimeline);
+      video2.removeEventListener("ended", restartTimeline);
+    };
+  });
 
   useFrame((_, delta) => {
     if (!planeRef.current) return;
@@ -168,7 +164,10 @@ export default function ParticleMorphingAdvancedCanvasContent() {
         position={[0, 0, 1500]}
       />
       <points ref={planeRef}>
-        <planeGeometry args={[480 * 1.75, 820 * 1.75, 480, 820]} />
+        <planeGeometry
+          args={[480 * 1.75, 820 * 1.75, 480 / 2, 820 / 2]}
+          index={null}
+        />
         <ParticleMorphingShaderMaterial
           uTime={0}
           uProgress={0}
