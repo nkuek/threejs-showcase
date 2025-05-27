@@ -3,7 +3,6 @@ import * as THREE from "three";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
 import {
-  OrbitControls,
   PerspectiveCamera,
   shaderMaterial,
   useVideoTexture,
@@ -155,7 +154,6 @@ export default function ParticleMorphingAdvancedCanvasContent() {
       <EffectComposer autoClear={true}>
         <Bloom intensity={0} luminanceThreshold={0.1} ref={bloomRef} />
       </EffectComposer>
-      <OrbitControls />
       <PerspectiveCamera
         makeDefault
         fov={70}
