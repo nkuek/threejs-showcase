@@ -36,11 +36,11 @@ const ParticleMorphingShaderMaterial = extend(particleMorphingShaderMaterial);
 
 // on iOS, video textures will just show a black screen if they are not played at least once
 // this function plays the video and then pauses it immediately to send the pixel data to the texture
-async function warmup(video: HTMLVideoElement) {
-  await video.play();
+async function warmup(texture: THREE.VideoTexture) {
+  await texture.image.play();
   setTimeout(() => {
-    video.pause();
-    video.currentTime = 0;
+    texture.image.pause();
+    texture.image.currentTime = 0;
   }, 0);
 }
 
@@ -66,7 +66,7 @@ export default function ParticleMorphingAdvancedCanvasContent() {
   const currentPlayingVideo = useRef<"1" | "2">("1");
 
   useEffect(() => {
-    warmup(vt2.image as HTMLVideoElement);
+    warmup(vt2);
   }, [vt2]);
 
   useGSAP((_, contextSafe) => {
@@ -78,12 +78,12 @@ export default function ParticleMorphingAdvancedCanvasContent() {
         thirdVideoIndex.current = (thirdVideoIndex.current + 1) % videos.length;
         if (currentPlayingVideo.current === "1") {
           vt1.image.src = videos[thirdVideoIndex.current];
-          warmup(vt1.image);
+          warmup(vt1);
           vt2.image.play();
           currentPlayingVideo.current = "2";
         } else {
           vt2.image.src = videos[thirdVideoIndex.current];
-          warmup(vt2.image);
+          warmup(vt2);
           vt1.image.play();
           currentPlayingVideo.current = "1";
         }
