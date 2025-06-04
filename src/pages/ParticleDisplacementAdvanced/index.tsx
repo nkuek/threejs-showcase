@@ -28,9 +28,8 @@ import {
   WebGPURenderer,
 } from "three/webgpu";
 import { getPointsOnSphere } from "./utils/getDataTexture";
-import { useControls } from "leva";
 
-const SIZE = 512;
+const SIZE = 256;
 const RADIUS = 32;
 
 const randValue = /*#__PURE__*/ Fn(
@@ -67,7 +66,6 @@ function FBOCanvasContent() {
   }, []);
 
   const { nodes, uniforms, computeUpdate, computeMouseMove } = useMemo(() => {
-    const agesBuffer = instancedArray(SIZE ** 2, "float");
     const velocitiesBuffer = instancedArray(SIZE ** 2, "vec3");
     const scalesBuffer = instancedArray(SIZE ** 2, "vec2");
     const positionsBuffer = new StorageInstancedBufferAttribute(
@@ -96,27 +94,28 @@ function FBOCanvasContent() {
     );
 
     const velocity = velocitiesBuffer.element(instanceIndex);
-    const age = agesBuffer.element(instanceIndex);
     const scale = scalesBuffer.element(instanceIndex);
     const positionNode = positionsStorage.element(instanceIndex);
     const initialPositionNode = initialPositionsStorage.element(instanceIndex);
     const scatterDirection =
       scatterDirectionBufferStorage.element(instanceIndex);
 
-    const lifetime = randValue({ min: 0.1, max: 6, seed: 13 });
-
     const computeInit = Fn(() => {
-      age.assign(randValue({ min: 0, max: lifetime, seed: 11 }));
-      scale.assign(vec2(randValue({ min: 0.01, max: 0.25, seed: 0 })));
+      scale.assign(vec2(randValue({ min: 0.1, max: 0.25, seed: 0 })));
       positionNode.mulAssign(RADIUS);
       initialPositionNode.assign(positionNode);
     })().compute(SIZE ** 2);
-    const opacity = float(0.6);
+    const opacity = float(1);
 
     const webgpuRenderer = gl as unknown as WebGPURenderer;
     webgpuRenderer.computeAsync(computeInit);
     const colorNode = vec4(
-      vec3(color("#c8c4b8")),
+      vec3(color("#c8c4b8")).mix(
+        vec3(0),
+        float(0.5).add(
+          positionNode.distance(initialPositionNode).oneMinus().clamp(0, 0.4)
+        )
+      ),
       opacity.add(
         positionNode
           .sub(initialPositionNode)
@@ -126,10 +125,9 @@ function FBOCanvasContent() {
     );
 
     const computeUpdate = Fn(() => {
-      positionNode.assign(rotate(positionNode, Math.PI * 0.00006));
-      initialPositionNode.assign(
-        rotate(initialPositionNode, Math.PI * 0.00006)
-      );
+      const rotationAmount = vec3(0, THREE.MathUtils.degToRad(0.01), 0);
+      positionNode.assign(rotate(positionNode, rotationAmount));
+      initialPositionNode.assign(rotate(initialPositionNode, rotationAmount));
       const directionToOriginal = initialPositionNode
         .sub(positionNode)
         .normalize();
@@ -202,29 +200,15 @@ function FBOCanvasContent() {
     previousMousePosition.current.copy(uniforms.mousePosition.value);
   });
 
-  useControls({
-    "Mouse Force": {
-      value: 0.001,
-      min: 0,
-      max: 0.01,
-      step: 0.0001,
-      onChange: (value) => {
-        uniforms.mouseForce.value = value;
-      },
-    },
-  });
-
   return (
     <>
       <OrbitControls />
       <sprite count={SIZE ** 2}>
         <spriteNodeMaterial
           {...nodes}
-          depthWrite={false}
           depthTest={false}
           transparent
           sizeAttenuation
-          alphaTest={0.01}
         />
         <circleGeometry args={[0.5, 32]} />
       </sprite>
@@ -238,8 +222,9 @@ function FBOCanvasContent() {
 
 export default function FBO() {
   return (
-    <div className="w-full h-dvh bg-[#f6f5f2]">
+    <div className="w-full h-dvh">
       <WebGPUCanvas dpr={1} camera={{ position: [0, 0, RADIUS * 2] }}>
+        <color attach="background" args={["#f6f5f2"]} />
         <PerformanceMonitor />
         <FBOCanvasContent />
       </WebGPUCanvas>
