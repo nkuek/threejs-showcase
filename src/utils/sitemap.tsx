@@ -15,9 +15,9 @@ export type SitemapRoute = {
 const LazyHome = lazy(() => import("~/pages/Home"));
 const LazyFireworks = lazy(() => import("~/pages/Fireworks"));
 const LazyEarth = lazy(() => import("~/pages/Earth"));
-const LazyParticleDisplacement = lazy(
-  () => import("~/pages/ParticleDisplacement")
-);
+// const LazyParticleDisplacement = lazy(
+//   () => import("~/pages/ParticleDisplacement")
+// );
 // const LazyParticleMorphing = lazy(() => import("~/pages/ParticleMorphing"));
 const LazyParticleFlowField = lazy(() => import("~/pages/ParticleFlowField"));
 const LazyShade = lazy(() => import("~/pages/Shade"));
