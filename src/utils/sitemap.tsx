@@ -29,6 +29,9 @@ const LazyCorne = lazy(() => import("~/pages/Corne"));
 const LazyParticleMorphingAdvanced = lazy(
   () => import("~/pages/ParticleMorphingAdvanced")
 );
+const LazyParticleDisplacementAdvanced = lazy(
+  () => import("~/pages/ParticleDisplacementAdvanced")
+);
 
 export const externalLinks = {
   portfolio: {
@@ -62,8 +65,8 @@ const sitemap = {
     label: "Particle Displacement",
     path: "/particle-displacement",
     exact: true,
-    component: <LazyParticleDisplacement />,
-    theme: "dark",
+    component: <LazyParticleDisplacementAdvanced />,
+    theme: "light",
   },
   particleMorphing: {
     label: "Particle Morphing",
