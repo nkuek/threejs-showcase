@@ -26,7 +26,7 @@
     "postprocessing": "^6.37.3",
     "react": "19.1",
     "react-dom": "^19.1.0",
-    "three": "^0.175",
+    "three": "^0.177.0",
     "troika-three-text": "^0.52.4"
   },
   "devDependencies": {
@@ -34,7 +34,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/react": "^19.1.4",
-    "@types/react-dom": "^18.2.19",
+    "@types/react-dom": "^19.1.6",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
@@ -50,7 +50,7 @@
     "tailwindcss": "^3.4.17",
     "tailwindcss-motion": "^1.0.1",
     "typescript": "^5.2.2",
-    "vite": "^5.1.4",
+    "vite": "^6.3.5",
     "vite-plugin-glsl": "^1.3.1",
     "vite-plugin-svgr": "^4.3.0"
   }
