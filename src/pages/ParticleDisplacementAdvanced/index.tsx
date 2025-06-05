@@ -223,7 +223,7 @@ function FBOCanvasContent() {
 export default function FBO() {
   return (
     <div className="w-full h-dvh">
-      <WebGPUCanvas dpr={1} camera={{ position: [0, 0, RADIUS * 2] }}>
+      <WebGPUCanvas dpr={1} camera={{ position: [0, 0, RADIUS * 1.5] }}>
         <color attach="background" args={["#f6f5f2"]} />
         <PerformanceMonitor />
         <FBOCanvasContent />
