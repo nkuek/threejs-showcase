@@ -202,7 +202,7 @@ function FBOCanvasContent() {
 
   return (
     <>
-      <OrbitControls />
+      <OrbitControls rotateSpeed={0.25} />
       <sprite count={SIZE ** 2}>
         <spriteNodeMaterial
           {...nodes}
