@@ -13,12 +13,16 @@ export default function Earth() {
           <EarthCanvasContent />
         </Canvas>
       </Suspense>
-      <div className="z-10 text-slate-100 absolute bottom-0 left-0 right-0 text-center text-sm flex items-center justify-center gap-2">
+      <div className="z-10 text-slate-100 absolute bottom-0 left-0 right-0 text-center text-sm flex items-center justify-center">
         Texture Assets Credit:{" "}
         <AnimatedLink
           to="https://www.solarsystemscope.com/textures/"
           underline
           external
+          arrowProps={{
+            direction: "right",
+            orientation: "diagonal",
+          }}
         >
           Solar Textures
         </AnimatedLink>

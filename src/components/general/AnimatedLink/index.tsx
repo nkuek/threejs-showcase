@@ -30,7 +30,7 @@ export default function AnimatedLink({
   children,
   className,
   underline,
-  arrowProps = { direction: "right" },
+  arrowProps,
   external,
   ...props
 }: PropsWithChildren<AnimatedLinkProps>) {
@@ -50,7 +50,7 @@ export default function AnimatedLink({
               <AnimatedArrow {...arrowProps} />
             )}
         <AnimatedText>{children}</AnimatedText>
-        {(external || arrowProps.direction === "right") && (
+        {arrowProps && arrowProps.direction === "right" && (
           <AnimatedArrow {...arrowProps} />
         )}
       </Link>

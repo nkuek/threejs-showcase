@@ -32,6 +32,7 @@ const LazyParticleMorphingAdvanced = lazy(
 const LazyParticleDisplacementAdvanced = lazy(
   () => import("~/pages/ParticleDisplacementAdvanced")
 );
+const LazyGPGPUParticles = lazy(() => import("~/pages/GPGPUParticles"));
 
 export const externalLinks = {
   portfolio: {
@@ -109,6 +110,13 @@ const sitemap = {
     exact: true,
     component: <LazyCorne />,
     theme: "light",
+  },
+  particleWave: {
+    label: "GPGPU Particles",
+    path: "/gpgpu-particles",
+    exact: true,
+    component: <LazyGPGPUParticles />,
+    theme: "dark",
   },
 } as const;
 

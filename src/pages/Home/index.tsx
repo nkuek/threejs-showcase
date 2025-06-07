@@ -10,7 +10,7 @@ export default function Home() {
   const showLeva = searchParams.has("debug");
   return (
     <div className="h-svh grid place-items-center w-full">
-      <ul className="flex flex-col gap-8 justify-center h-full p-4 z-[1]">
+      <ul className="p-4 z-[1] columns-2 space-y-8 gap-16 ">
         {Object.entries(sitemap)
           .filter(([key]) => key !== "home")
           .map(([, link]) => (
