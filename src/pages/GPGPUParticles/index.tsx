@@ -1,6 +1,6 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   ceil,
   deltaTime,
@@ -31,6 +31,8 @@ import chicken from "./assets/chicken.glb?url";
 import capybara from "./assets/capybara.glb?url";
 import { useControls } from "leva";
 import AnimatedLink from "~/components/general/AnimatedLink";
+import cn from "~/utils/cn";
+import "./styles.css";
 
 const SIZE = 500000;
 
@@ -234,8 +236,18 @@ export default function ParticleWave() {
       options: ["chicken", "capybara"],
       value: "capybara",
       label: "Model",
+      onChange: (value) => {
+        document.startViewTransition(() => {
+          setGeometry(value);
+        });
+      },
+      transient: false,
     },
   });
+
+  // State to transition the credits text
+  const [geometry, setGeometry] = useState(currentGeometry);
+
   const modelCredits = {
     chicken: {
       modelName: "Chicken",
@@ -250,8 +262,8 @@ export default function ParticleWave() {
       authorLink: "https://poly.pizza/u/Poly%20by%20Google",
     },
   };
-  const currentCredits =
-    modelCredits[currentGeometry as keyof typeof modelCredits];
+  const currentCredits = modelCredits[geometry as keyof typeof modelCredits];
+
   return (
     <div className="h-svh bg-slate-900">
       <WebGPUCanvas camera={{ position: [4, 4, 10] }}>
@@ -260,7 +272,12 @@ export default function ParticleWave() {
           <CanvasContent currentGeometry={currentGeometry} />
         </Suspense>
       </WebGPUCanvas>
-      <span className="absolute bottom-4 text-stone-100 flex gap-2 justify-center items-center w-full text-sm">
+      <span
+        className={cn(
+          "absolute bottom-4 text-stone-100 flex gap-2 justify-center items-center w-full text-sm",
+          "credits"
+        )}
+      >
         <AnimatedLink external to={currentCredits.modelLink} underline>
           {currentCredits.modelName}
         </AnimatedLink>{" "}
