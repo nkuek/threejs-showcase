@@ -1,4 +1,4 @@
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useDetectGPU, useGLTF } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import {
@@ -38,7 +38,12 @@ const SIZE = 500000;
 
 useGLTF.preload([chicken, capybara]);
 
-function CanvasContent({ currentGeometry = "capybara" }) {
+function CanvasContent({
+  currentGeometry = "capybara",
+  numParticles = SIZE,
+  particleScaleLower = 0.005,
+  particleScaleUpper = 0.014,
+}) {
   const webgpuRenderer = useThree(
     (state) => state.gl
   ) as unknown as WebGPURenderer;
@@ -66,7 +71,7 @@ function CanvasContent({ currentGeometry = "capybara" }) {
   }, [capybaraScene, chickenScene, currentGeometry]);
 
   const targetPositionsTexture = useMemo(() => {
-    const size = Math.ceil(Math.sqrt(SIZE));
+    const size = Math.ceil(Math.sqrt(numParticles));
     const data = new Float32Array(size * size * 4);
     for (let i = 0; i < size ** 2; i++) {
       const i4 = i * 4;
@@ -83,11 +88,11 @@ function CanvasContent({ currentGeometry = "capybara" }) {
       THREE.FloatType
     );
     return texture;
-  }, []);
+  }, [numParticles]);
 
   useEffect(() => {
     if (!geometries || geometries.length === 0) return;
-    for (let i = 0; i < SIZE; i++) {
+    for (let i = 0; i < numParticles; i++) {
       const geometryIndex = THREE.MathUtils.randInt(0, geometries.length - 1);
       const randomGeometryIndex = THREE.MathUtils.randInt(
         0,
@@ -109,12 +114,12 @@ function CanvasContent({ currentGeometry = "capybara" }) {
       data[i * 4 + 3] = 1;
     }
     targetPositionsTexture.needsUpdate = true;
-  }, [currentGeometry, geometries, targetPositionsTexture]);
+  }, [currentGeometry, geometries, numParticles, targetPositionsTexture]);
 
-  const { nodes, computeUpdate } = useMemo(() => {
-    const spawnPositionBuffer = instancedArray(SIZE, "vec3");
-    const offsetPositionBuffer = instancedArray(SIZE, "vec3");
-    const agesBuffer = instancedArray(SIZE, "float");
+  const { nodes, computeUpdate, uniforms } = useMemo(() => {
+    const spawnPositionBuffer = instancedArray(numParticles, "vec3");
+    const offsetPositionBuffer = instancedArray(numParticles, "vec3");
+    const agesBuffer = instancedArray(numParticles, "float");
 
     const spawnPosition = spawnPositionBuffer.element(instanceIndex);
     const offsetPosition = offsetPositionBuffer.element(instanceIndex);
@@ -123,11 +128,13 @@ function CanvasContent({ currentGeometry = "capybara" }) {
     const lifetime = randValue({ min: 0.1, max: 6, seed: 12 });
     const startColor = uniform(color("#ffdfdf"));
     const endColor = uniform(color("#ff000a"));
+    const time = uniform(0);
 
-    // const uniforms = {
-    //   color: startColor,
-    //   endColor,
-    // };
+    const uniforms = {
+      color: startColor,
+      endColor,
+      time,
+    };
 
     const computeInit = Fn(() => {
       spawnPosition.assign(
@@ -139,11 +146,11 @@ function CanvasContent({ currentGeometry = "capybara" }) {
       );
       offsetPosition.assign(0);
       age.assign(randValue({ min: 0, max: lifetime, seed: 11 }));
-    })().compute(SIZE);
+    })().compute(numParticles);
 
     webgpuRenderer.computeAsync(computeInit);
 
-    const size = ceil(sqrt(SIZE));
+    const size = ceil(sqrt(numParticles));
     const col = instanceIndex.mod(size).toFloat();
     const row = instanceIndex.div(size).toFloat();
     const targetPosition = texture(
@@ -179,9 +186,9 @@ function CanvasContent({ currentGeometry = "capybara" }) {
       });
 
       // offsetPosition.addAssign(vec3(instanceSpeed));
-    })().compute(SIZE);
+    })().compute(numParticles);
 
-    const scale = vec3(range(0.005, 0.014));
+    const scale = vec3(range(particleScaleLower, particleScaleUpper));
 
     const dist = uv().sub(0.5).length();
     const circle = smoothstep(0.5, 0.4, dist);
@@ -200,7 +207,7 @@ function CanvasContent({ currentGeometry = "capybara" }) {
     const finalColor = mixColors.mul(circle);
 
     return {
-      // uniforms,
+      uniforms,
       nodes: {
         positionNode: spawnPosition.add(offsetPosition).add(randOffset),
         colorNode: finalColor,
@@ -208,15 +215,22 @@ function CanvasContent({ currentGeometry = "capybara" }) {
       },
       computeUpdate,
     };
-  }, [targetPositionsTexture, webgpuRenderer]);
+  }, [
+    numParticles,
+    particleScaleLower,
+    particleScaleUpper,
+    targetPositionsTexture,
+    webgpuRenderer,
+  ]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     webgpuRenderer.computeAsync(computeUpdate);
+    uniforms.time.value += delta;
   });
 
   return (
     <>
-      <sprite count={SIZE}>
+      <sprite count={numParticles}>
         <spriteNodeMaterial
           positionNode={nodes.positionNode}
           scaleNode={nodes.scaleNode}
@@ -248,6 +262,8 @@ export default function ParticleWave() {
   // State to transition the credits text
   const [geometry, setGeometry] = useState(currentGeometry);
 
+  const gpuTier = useDetectGPU();
+
   const modelCredits = {
     chicken: {
       modelName: "Chicken",
@@ -269,7 +285,12 @@ export default function ParticleWave() {
       <WebGPUCanvas camera={{ position: [4, 4, 10] }}>
         <OrbitControls />
         <Suspense fallback={null}>
-          <CanvasContent currentGeometry={currentGeometry} />
+          <CanvasContent
+            currentGeometry={currentGeometry}
+            numParticles={gpuTier.isMobile ? 50000 : SIZE}
+            particleScaleLower={gpuTier.isMobile ? 0.01 : 0.005}
+            particleScaleUpper={gpuTier.isMobile ? 0.02 : 0.014}
+          />
         </Suspense>
       </WebGPUCanvas>
       <span
