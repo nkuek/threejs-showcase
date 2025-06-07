@@ -24,7 +24,7 @@ export default function Home() {
             </li>
           ))}
       </ul>
-      <div className="absolute h-full">
+      <div className="absolute h-full w-full">
         <Canvas>
           <Suspense>
             <HomeCanvasContent />
