@@ -9,7 +9,7 @@ export default function Home() {
   const [searchParams] = useSearchParams();
   const showLeva = searchParams.has("debug");
   return (
-    <div className="h-full pt-[76px] grid place-items-center w-full relative">
+    <div className="h-dvh pt-[76px] grid place-items-center w-full relative">
       <ul className="p-4 z-[1] md:columns-2 space-y-8 gap-16 ">
         {Object.entries(sitemap)
           .filter(([key]) => key !== "home")
