@@ -9,8 +9,8 @@ export default function Home() {
   const [searchParams] = useSearchParams();
   const showLeva = searchParams.has("debug");
   return (
-    <div className="h-svh grid place-items-center w-full">
-      <ul className="p-4 z-[1] columns-2 space-y-8 gap-16 ">
+    <div className="h-full pt-[76px] grid place-items-center w-full relative">
+      <ul className="p-4 z-[1] md:columns-2 space-y-8 gap-16 ">
         {Object.entries(sitemap)
           .filter(([key]) => key !== "home")
           .map(([, link]) => (
@@ -24,7 +24,7 @@ export default function Home() {
             </li>
           ))}
       </ul>
-      <div className="absolute inset-0">
+      <div className="absolute h-full">
         <Canvas>
           <Suspense>
             <HomeCanvasContent />
