@@ -3,7 +3,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   ceil,
-  deltaTime,
   Fn,
   If,
   instancedArray,
@@ -129,11 +128,13 @@ function CanvasContent({
     const startColor = uniform(color("#ffdfdf"));
     const endColor = uniform(color("#ff000a"));
     const time = uniform(0);
+    const delta = uniform(0);
 
     const uniforms = {
       color: startColor,
       endColor,
       time,
+      delta,
     };
 
     const computeInit = Fn(() => {
@@ -158,7 +159,7 @@ function CanvasContent({
       vec2(col, row).div(size.toFloat())
     ).xyz;
 
-    const instanceSpeed = randValue({ min: 0.01, max: 0.05, seed: 12 });
+    const instanceSpeed = randValue({ min: 5, max: 10, seed: 12 });
     const offsetSpeed = randValue({ min: 0.1, max: 0.5, seed: 14 });
     const computeUpdate = Fn(() => {
       const distanceToTarget = targetPosition.sub(spawnPosition);
@@ -168,17 +169,19 @@ function CanvasContent({
           distanceToTarget
             .normalize()
             .mul(min(instanceSpeed, distanceToTarget.length()))
+            .mul(delta)
+            .mul(2)
         );
       });
 
       offsetPosition.addAssign(
         mx_fractal_noise_vec3(spawnPosition.mul(age))
           .mul(offsetSpeed)
-          .mul(deltaTime)
+          .mul(delta)
           .mul(5)
       );
 
-      age.addAssign(deltaTime);
+      age.addAssign(delta);
 
       If(age.greaterThan(lifetime), () => {
         age.assign(0);
@@ -225,7 +228,9 @@ function CanvasContent({
 
   useFrame((_, delta) => {
     webgpuRenderer.computeAsync(computeUpdate);
+    const deltaTime = THREE.MathUtils.clamp(delta, 0.00001, 1 / 60);
     uniforms.time.value += delta;
+    uniforms.delta.value = deltaTime;
   });
 
   return (
