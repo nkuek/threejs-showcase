@@ -4,7 +4,7 @@ import {
   PerspectiveCamera,
   useTexture,
 } from "@react-three/drei";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { Fragment, Suspense, useEffect, useMemo, useRef } from "react";
 import {
   abs,
   color,
@@ -213,18 +213,20 @@ export default function CurvedSlider() {
   return (
     <div className="w-full h-dvh">
       <WebGPUCanvas>
-        <color attach="background" args={["black"]} />
-        <ambientLight intensity={0.5} />
-        <PerspectiveCamera makeDefault position={[0, 0, 10]} />
-        <OrbitControls
-          enablePan={false}
-          enableZoom={false}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-          rotateSpeed={0.25}
-          reverseOrbit
-        />
-        <CanvasContent />
+        <Suspense fallback={null}>
+          <color attach="background" args={["black"]} />
+          <ambientLight intensity={0.5} />
+          <PerspectiveCamera makeDefault position={[0, 0, 10]} />
+          <OrbitControls
+            enablePan={false}
+            enableZoom={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
+            rotateSpeed={0.25}
+            reverseOrbit
+          />
+          <CanvasContent />
+        </Suspense>
       </WebGPUCanvas>
     </div>
   );
