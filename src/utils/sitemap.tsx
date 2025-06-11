@@ -33,6 +33,7 @@ const LazyParticleDisplacementAdvanced = lazy(
   () => import("~/pages/ParticleDisplacementAdvanced")
 );
 const LazyGPGPUParticles = lazy(() => import("~/pages/GPGPUParticles"));
+const LazyCurvedSlider = lazy(() => import("~/pages/CurvedSlider"));
 
 export const externalLinks = {
   portfolio: {
@@ -116,6 +117,13 @@ const sitemap = {
     path: "/gpgpu-particles",
     exact: true,
     component: <LazyGPGPUParticles />,
+    theme: "dark",
+  },
+  curvedSlider: {
+    label: "Curved Slider",
+    path: "/curved-slider",
+    exact: true,
+    component: <LazyCurvedSlider />,
     theme: "dark",
   },
 } as const;
