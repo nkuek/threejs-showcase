@@ -12,7 +12,6 @@ import {
   float,
   Fn,
   mix,
-  mx_noise_float,
   pass,
   positionLocal,
   pow,
@@ -24,12 +23,15 @@ import {
   uniform,
   uv,
   vec2,
+  vec3,
   vec4,
 } from "three/tsl";
 import WebGPUCanvas from "~/components/general/WebGPUCanvas";
 import VirtualScroll from "virtual-scroll";
 import * as THREE from "three/webgpu";
 import { useFrame, useThree } from "@react-three/fiber";
+import { curlNoise } from "~/utils/tsl/curlNoiseVec3";
+import { gaussianBlur } from "three/examples/jsm/tsl/display/GaussianBlurNode.js";
 
 const RADIUS = 19.3;
 
@@ -61,10 +63,8 @@ function CanvasContent() {
 
     const positionNode = Fn(() => {
       const position = positionLocal.xyz.toVar();
-      // const worldPosition = modelWorldMatrix.mul(position);
-      // const distanceFromCenter = length(worldPosition.x);
-
-      // position.y.mulAssign(float(1).add(pow(distanceFromCenter.mul(0.1), 2)));
+      // const distanceFromCenter = abs(positionWorld.x);
+      // position.y.mulAssign(float(1).add(distanceFromCenter));
 
       return position;
     })();
@@ -160,33 +160,42 @@ function CanvasContent() {
       const absX = abs(uv.x.sub(0.5).div(0.5));
       newUv.x.mulAssign(float(1).sub(pow(abs(newUv.x), float(0.5))));
 
-      newUv.y.mulAssign(float(1).sub(float(0.6).mul(absX)));
+      newUv.y.mulAssign(float(1).sub(float(0.8).mul(pow(absX, float(1.5)))));
 
       newUv.addAssign(vec2(0.5));
-      newUv.x.addAssign(uniforms.time.mul(0.02).mul(sign(uv.x.sub(0.5))));
+      newUv.x.addAssign(
+        uniforms.time
+          .mul(0.04)
+          .mul(scale)
+          .mul(sign(uv.x.sub(0.5)))
+      );
 
-      newUv.mulAssign(float(100).mul(scale));
       return newUv;
     });
 
     const postprocessing = new THREE.PostProcessing(renderer);
 
-    const distortionEdge = smoothstep(0.25, 0.7, abs(screenUV.x.sub(0.5)));
+    const distortionEdge = smoothstep(0.2, 0.7, abs(screenUV.x.sub(0.5)));
     const blurEdge = smoothstep(0.45, 0.5, abs(screenUV.x.sub(0.5))).oneMinus();
-    const noiseEdge = smoothstep(0.33, 0.7, abs(screenUV.x.sub(0.5)));
+    const noiseEdge = smoothstep(0.2, 0.7, abs(screenUV.x.sub(0.5)));
 
-    const uvNoise = noiseUv(screenUV, 5);
-    const uvBlur = noiseUv(screenUV, 3);
+    const uvNoise = noiseUv(screenUV, 1);
+    const uvBlur = noiseUv(screenUV, 0.5);
 
-    const noise = mx_noise_float(uvNoise.mul(0.01));
-    const blurNoise = mx_noise_float(uvBlur.mul(0.2));
+    const noise = curlNoise(vec3(uvNoise.mul(3), 0)).x;
+    const blurNoise = curlNoise(vec3(uvBlur.mul(3), 0)).x;
     const blurNoiseBlur = rand(uv().mul(float(1).add(uniforms.time)));
+
     const angle = noise.add(blurNoise).mul(Math.PI * 2);
     const direction = vec2(cos(angle), sin(angle));
     const distortionUv = screenUV.add(direction.mul(noise.mul(0.5)));
 
     const prefinalUv = mix(screenUV, distortionUv, distortionEdge).toVar();
-    const finalUv = mix(prefinalUv, blurNoiseBlur.xy, noiseEdge).toVar();
+    const finalUv = mix(
+      prefinalUv,
+      blurNoiseBlur.xy.mul(0.17),
+      noiseEdge
+    ).toVar();
 
     const blackBorder = mix(
       color("black"),
@@ -194,7 +203,11 @@ function CanvasContent() {
       blurEdge
     );
 
-    postprocessing.outputNode = blackBorder;
+    postprocessing.outputNode = mix(
+      blackBorder,
+      gaussianBlur(scenePass.getTextureNode().sample(finalUv), 0.8, 10),
+      distortionEdge
+    );
     postprocessingRef.current = postprocessing;
   }, [renderer, scene, camera, uniforms.time]);
 
@@ -216,7 +229,7 @@ export default function CurvedSlider() {
         <Suspense fallback={null}>
           <color attach="background" args={["black"]} />
           <ambientLight intensity={0.5} />
-          <PerspectiveCamera makeDefault position={[0, 0, 10]} />
+          <PerspectiveCamera makeDefault position={[0, 0, 1]} />
           <OrbitControls
             enablePan={false}
             enableZoom={false}
